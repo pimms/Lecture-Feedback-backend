@@ -42,4 +42,8 @@ ALTER TABLE `Comments`
 
 -- Constraints for table `Values`
 ALTER TABLE `Values`
+  ADD CONSTRAINT `Values_Lecture_FK` FOREIGN KEY (`Room`, `Time`) REFERENCES `Lecture` (`Room`, `Time`);
+  
+-- Constraints for table `Values`
+ALTER TABLE `Values`
   ADD CONSTRAINT `Values_Feedback_Names_FK` FOREIGN KEY (`Feedback_name`) REFERENCES `Feedback_names` (`Feedback_name`);
