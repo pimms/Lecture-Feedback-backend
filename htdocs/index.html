@@ -1,0 +1,58 @@
+<html>
+	<head>
+	</head>
+
+	<body style="margin-left:10%;">
+		<h1>Lecture Feedback web-API description</h1>
+		<p>
+			This page contains an updated overview of the Lecture Feedback <br/>
+			web API - implemented and in-development features.<br/>
+			All paths should be relative to the HTTP-root of the site.<br/>
+			Major functions should be implemented in their own PHP scripts.<br/>
+		</p>
+		<br/><br/>
+
+		<!-- GET FEED -->
+		<h2>Retrieve feed of reviews</h2>
+		<p>
+			Service base URL: &nbsp;&nbsp;&nbsp;<b>getFeed.php</b>
+
+			<h3>Parameters</h3>
+			<li>filter <i>REQUIRED</i></li>
+				<i><u>Type:</u></i> Comma separated list of the items to include in the response.<br/>
+				The items must be TimeEdit IDs.<br/> <br/>
+				<i><u>Example:</u></i>
+				<i>"161571.182,161884.183"</i> will return a response with the<br/>
+				<b>class</b> 12HBSPA <i>(.183)</i> and the <b>course</b> IMT3672 <i>(.182)</i>.<br/><br/>
+
+			<li>first <i>optional</i></li>
+				<i><u>Type:</u></i> Integer<br/>
+				The index of the first item to be returned. Defaults to 0.<br/><br/>
+
+			<li>num <i>optional</i></li>
+				<i><u>Type:</u></i> Integer<br/>
+				The number of items to be returned in the result-set. Defaults to 20.
+
+			<br/><br/>
+			<h3>Return</h3>
+			{  <br/>
+			&emsp;"item_count":N,<br/>
+			&emsp;"items": [<br/>
+			&emsp;&emsp;{<br/>
+			&emsp;&emsp;&emsp;"course"   : "Algoritmiske Metoder",<br/>
+			&emsp;&emsp;&emsp;"lecturer" : "Frode Haug",	
+			&emsp;&emsp;&emsp;"time"     : "10:00 - 12:00",<br/>
+			&emsp;&emsp;&emsp;"room"     : "K105",<br/>
+			&emsp;&emsp;&emsp;"ratings"  : [0, 1, 0, 1, 1],<br/>
+			&emsp;&emsp;&emsp;"comment"  : "Frode sl&aring;r p&aring; stortrommen atter en gang!",<br/>
+			&emsp;&emsp;&emsp;"id"       : 150913<br/>
+			&emsp;&emsp;},<br/>
+			&emsp;&emsp;...<br/>
+			&emsp;]<br/>
+			}<br/>
+		</p>
+
+
+		
+	</body>
+</html>
