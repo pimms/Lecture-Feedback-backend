@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @class CourseRetriever
+ * @class CourseResolver
  * Class that resolved HiG classes into courses.
  */
-class CourseRetriever {
+class CourseResolver {
 	private $filter;
 	private $startDate;
 	private $endDate;

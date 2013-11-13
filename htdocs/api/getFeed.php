@@ -1,17 +1,16 @@
 <?php
 
-require_once("CourseRetriever.class.php");
+require_once("CourseResolver.class.php");
 
 
 $json = array();
 
 
 if (isset($_GET["filter"])) {
-	$courseRetriever = new CourseRetriever($_GET["filter"]);
-	$filter = explode(",", $_GET["filter"]);
-	$courses = $courseRetriever->resolveCourses();
-	$json["courses"] = $courses;
-	$json["status"] = "ok";
+	$courseResolver = new CourseResolver($_GET["filter"]);
+	$courses = $courseResolver->resolveCourses();
+	
+
 } else {
 	$json["status"] = "bad";
 }
