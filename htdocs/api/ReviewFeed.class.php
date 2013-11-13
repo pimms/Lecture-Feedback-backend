@@ -29,11 +29,11 @@ class ReviewFeed {
 
 		/* Return some dummy values */
 		$obj = new Review(101, "Fag A", "Professor Robertsen", "10:00 - 13:00", (new DateTime())->format('Y-m-d'), 
-			              "K105", array(false, false, false, true, true), "HEISANN MAMMA");
+			              "K105", array(false, false, false, true, true), "HEISANN MAMMA", new DateTime());
 		$result[] = $obj;
 
 		$obj = new Review(102, "Fag B", "Professor Robertsen", "12:00 - 15:00", (new DateTime())->format('Y-m-d'), 
-			              "K105", array(false, false, false, true, true), "digger faget, yolo");
+			              "K105", array(false, false, false, true, true), "digger faget, yolo", new DateTime());
 		$result[] = $obj;
 
 		return $result;

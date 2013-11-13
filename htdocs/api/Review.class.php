@@ -26,7 +26,7 @@ class Review {
 	private $time;
 
 	/**
-	 * DATE containing the date of the lecture on the form "yyyy-MM-dd"
+	 * STRING containing the date of the lecture on the form "yyyy-MM-dd"
 	 */
 	private $date;
 
@@ -45,9 +45,14 @@ class Review {
 	 */
 	private $comment;
 
+	/**
+	 * DATETIME containing the date and time when the review was made
+	 */
+	private $reviewTime;
+
 
 	public function __construct($id, $courseName, $lecturer, $time, 
-								$date, $room, $ratings, $comment) {
+								$date, $room, $ratings, $comment, $reviewTime) {
 		$this->id = $id;
 		$this->courseName = $courseName;
 		$this->lecturer = $lecturer;
@@ -57,20 +62,22 @@ class Review {
 		$this->room = $room;
 		$this->ratings = $ratings;
 		$this->comment = $comment;
+		$this->reviewTime = $reviewTime;
 	}
 
 
 	public function getAssocArray() {
 		$arr = array();
 
-		$arr["id"] 		 = $this->getId();
-		$arr["course"] 	 = $this->getCourseName();
-		$arr["lecturer"] = $this->getLecturer();
-		$arr["time"] 	 = $this->getTime();
-		$arr["date"] 	 = $this->getDate();
-		$arr["room"] 	 = $this->getRoom();
-		$arr["ratings"]  = $this->getRatings();
-		$arr["comment"]  = $this->getComment();
+		$arr["id"] 		 	= $this->getId();
+		$arr["course"] 	 	= $this->getCourseName();
+		$arr["lecturer"] 	= $this->getLecturer();
+		$arr["time"] 	 	= $this->getTime();
+		$arr["date"] 	 	= $this->getDate();
+		$arr["room"] 	 	= $this->getRoom();
+		$arr["ratings"]  	= $this->getRatings();
+		$arr["comment"]  	= $this->getComment();
+		$arr["review_time"] = $this->reviewTime->format("Y-m-d H:m");
 
 		return $arr;
 	}
