@@ -13,7 +13,7 @@ class ReviewFeed {
 	 * Get an array of feed items.
 	 *
 	 * @param filter
-	 * Array of string containing HiG course IDs ("IMTxxxx")
+	 * Array of string containing TimeEdit course IDs ("xxxxxx.183")
 	 *
 	 * @param first
 	 * The first item in the total list to be returned 

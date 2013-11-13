@@ -68,14 +68,12 @@ if (isset($_GET["filter"])) {
 	// Set FIRST and COUNT from default / GET
 	$first = getFromAssoc($_GET, "first", 0);
 	$count = getFromAssoc($_GET, "count", 25);
-
-	// Resolve the filter
-	$courseResolver = new CourseResolver($_GET["filter"]);
-	$courses = $courseResolver->resolveCourses();
 	
+    $filter = explode(",", $_GET["filter"]);
+
 	// Retrieve the feed of items
 	$feed = new ReviewFeed();
-	$reviews = $feed->getFeed($courses, $first, $count);
+	$reviews = $feed->getFeed($filter, $first, $count);
 
 	// Prepare the JSON array
 	$json["status"] = "ok";
