@@ -1,6 +1,5 @@
 <?php
 
-require_once("CourseResolver.class.php");
 require_once("ReviewFeed.class.php");
 require_once("Utils.php");
 
