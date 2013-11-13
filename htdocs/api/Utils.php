@@ -8,17 +8,20 @@
 
 
 /**
- * @param var
- * The variable to be evaluated and possibly returned.
+ * @param assoc
+ * The associative array that may contain "key".
+ *
+ * @param key
+ * The desired key of the value
  *
  * @param default
- * The default value, if "var" is unset.
+ * The default value, if $assoc[$key] is unset.
  *
  * @return
- * $var if set, $default otherwise.
+ * $assoc[$key] if set, $default otherwise.
  */
-function getIfSet($var, $default) {
-	return isset($var) ? $var : $default;
+function getFromAssoc($assoc, $key, $default) {
+	return isset($assoc[$key]) ? $assoc[$key] : $default;
 }
 
 ?>
