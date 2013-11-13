@@ -6,6 +6,11 @@
  */
 class Review {
 	/**
+	 * INT containing the unique ID of this review
+	 */
+	private $id;
+
+	/**
 	 * STRING containing the name of the course.
 	 */
 	private $courseName;
@@ -41,8 +46,9 @@ class Review {
 	private $comment;
 
 
-	public function __construct($courseName, $lecturer, $time, 
+	public function __construct($id, $courseName, $lecturer, $time, 
 								$date, $room, $ratings, $comment) {
+		$this->id = $id;
 		$this->courseName = $courseName;
 		$this->lecturer = $lecturer;
 		$this->time = $time;
@@ -53,6 +59,26 @@ class Review {
 		$this->comment = $comment;
 	}
 
+
+	public function getAssocArray() {
+		$arr = array();
+
+		$arr["id"] 		 = $this->getId();
+		$arr["course"] 	 = $this->getCourseName();
+		$arr["lecturer"] = $this->getLecturer();
+		$arr["time"] 	 = $this->getTime();
+		$arr["date"] 	 = $this->getDate();
+		$arr["room"] 	 = $this->getRoom();
+		$arr["ratings"]  = $this->getRatings();
+		$arr["comment"]  = $this->getComment();
+
+		return $arr;
+	}
+
+
+	public function getId() {
+		return $this->id;
+	}
 
 	public function getCourseName() {
 		return $this->courseName;

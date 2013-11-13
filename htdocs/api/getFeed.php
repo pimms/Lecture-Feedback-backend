@@ -2,6 +2,7 @@
 
 require_once("CourseResolver.class.php");
 require_once("ReviewFeed.class.php");
+require_once("Utils.php");
 
 
 function prettyPrint( $json )
@@ -64,26 +65,25 @@ $json = array();
 
 
 if (isset($_GET["filter"])) {
+	// Set FIRST and COUNT from default / GET
+	$first = getFromAssoc($_GET, "first", 0);
+	$count = getFromAssoc($_GET, "count", 25);
+
+	// Resolve the filter
 	$courseResolver = new CourseResolver($_GET["filter"]);
 	$courses = $courseResolver->resolveCourses();
 	
+	// Retrieve the feed of items
 	$feed = new ReviewFeed();
-	$reviews = $feed->getFeed($courses, 0, 10);
+	$reviews = $feed->getFeed($courses, $first, $count);
 
+	// Prepare the JSON array
+	$json["status"] = "ok";
 	$json["item_count"] = count($reviews);
 	$json["items"] = array();
-	
+
 	foreach ($reviews as $review) {
-		$arr = array();
-		$arr["course"] 	 = $review->getCourseName();
-		$arr["lecturer"] = $review->getLecturer();
-		$arr["time"] 	 = $review->getTime();
-		$arr["date"] 	 = $review->getDate();
-		$arr["room"] 	 = $review->getRoom();
-		$arr["ratings"]  = $review->getRatings();
-		$arr["comment"]  = $review->getComment();
-		$arr["id"] 		 = 15012;
-		$json["items"][] = $arr;	
+		$json["items"][] = $review->getAssocArray();	
 	}
 } else {
 	$json["status"] = "bad";
