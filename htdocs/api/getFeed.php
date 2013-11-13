@@ -91,5 +91,6 @@ if (isset($_GET["filter"])) {
 
 
 $jsonString = json_encode($json);
-echo prettyPrint($jsonString);
+//echo prettyPrint($jsonString);
+echo $jsonString;
 ?>

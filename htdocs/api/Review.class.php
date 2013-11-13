@@ -26,7 +26,7 @@ class Review {
 	private $time;
 
 	/**
-	 * DATE containing the date of the lecture
+	 * DATE containing the date of the lecture on the form "yyyy-MM-dd"
 	 */
 	private $date;
 
