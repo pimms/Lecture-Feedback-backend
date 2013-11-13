@@ -25,7 +25,18 @@ class ReviewFeed {
 	 * Array of Review-objects.
 	 */
 	public function getFeed($filter, $first, $count) {
-		
+		$result = array();
+
+		/* Return some dummy values */
+		$obj = new Review("Fag A", "Professor Robertsen", "10:00 - 13:00", (new DateTime())->format('Ymd'), 
+			              "K105", array(false, false, false, true, true), "HEISANN MAMMA");
+		$result[] = $obj;
+
+		$obj = new Review("Fag B", "Professor Robertsen", "12:00 - 15:00", (new DateTime())->format('Ymd'), 
+			              "K105", array(false, false, false, true, true), "digger faget, yolo");
+		$result[] = $obj;
+
+		return $result;
 	}
 }
 ?>
