@@ -15,6 +15,8 @@ class CourseRetriever {
 	 * TimeEdit IDs to be included in the final result.
 	 */
 	public function __construct($filter) {
+		// Add "OR" separators (-1) between the filter items
+		$filter =  join(",-1,", explode(",", $filter));
 		$this->filter = $filter;
 	}
 
@@ -71,17 +73,36 @@ class CourseRetriever {
 		$this->setDates($start, $end);
 	}
 
+	/**
+	 * TimeEdit classes are defined by a ".182" postfix, and
+	 * must be resolved into courses (".183" postfix).
+	 *
+	 * @return
+	 * True if any filter item is a class, false if all
+	 * items in the filter are courses.
+	 */
+	public function doesFilterContainClasses() {
+		foreach (explode(", ", $this->filter) as $item) {
+			if (explode(".", $item)[1] === "182") {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 
 	/**
-	 * Retrieve all related courses from the passed filter.
+	 * Retrieve all related course names from the passed filter.
 	 *
 	 * @param filter
-	 * Array of TimeEdit IDs. 
+	 * Array of TimeEdit IDs. TimeEdit class and course IDs will
+	 * be resolved into HiG course IDs (e.g., IMTxxxx).
 	 *
 	 * @return
 	 * Array of HiG course IDs
 	 */ 
-	public function resolveCourses($filter) {
+	public function resolveCourses() {
 		$ical = $this->getICal();
 		$courses = array();
 
