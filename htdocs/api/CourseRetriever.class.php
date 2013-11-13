@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @class TimeEditICS
- * Class that retrieves an ICS-file from TimeEdit.
+ * @class CourseRetriever
+ * Class that resolved HiG classes into courses.
  */
-class TimeEditICS {
+class CourseRetriever {
 	private $filter;
 	private $startDate;
 	private $endDate;
@@ -72,8 +72,30 @@ class TimeEditICS {
 	}
 
 
-	/* Example URL: 
-	 * https://web.timeedit.se/hig_no/db1/open/r.ics?sid=3&p=20131105.x%2C20131119.x&objects=161571.281&ox=0&types=0&fe=0&l=en&pp=f 
-	 */
+	/**
+	 * Retrieve all related courses from the passed filter.
+	 *
+	 * @param filter
+	 * Array of TimeEdit IDs. 
+	 *
+	 * @return
+	 * Array of HiG course IDs
+	 */ 
+	public function resolveCourses($filter) {
+		$ical = $this->getICal();
+		$courses = array();
+
+		$lines = explode("\r\n", $ical);
+		foreach ($lines as $line) {
+			if (substr($line, 0, 8) == "SUMMARY:") {
+				$course = substr($line, 8);
+				if (gettype($course) === "string" && !in_array($course, $courses)) {
+					$courses[] = $course;
+				}
+			}
+		}
+
+		return $courses;
+	}
 }
 ?>
