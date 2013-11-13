@@ -1,15 +1,17 @@
 <?php
 
-require_once("TimeEditICS.class.php");
+require_once("CourseRetriever.class.php");
 
 
 $json = array();
 
 
 if (isset($_GET["filter"])) {
-	$timeEdit = new TimeEditICS($_GET["filter"]);
-	$ical = $timeEdit->getICal();
-	echo str_replace("\n", "<br/>", $ical);
+	$courseRetriever = new CourseRetriever($_GET["filter"]);
+	$filter = explode(",", $_GET["filter"]);
+	$courses = $courseRetriever->resolveCourses();
+	$json["courses"] = $courses;
+	$json["status"] = "ok";
 } else {
 	$json["status"] = "bad";
 }
