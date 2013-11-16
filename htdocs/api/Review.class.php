@@ -141,7 +141,7 @@ class Review {
 
 		// Set the review time
 		if (isset($reviewTime)) {
-			$this->reviewTime = (int)$reviewTime;
+			$this->reviewTime = $reviewTime;
 		} else {
 			$date = new DateTime();
 			$this->reviewTime = $date->getTimestamp();
