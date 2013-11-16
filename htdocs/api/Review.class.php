@@ -142,19 +142,13 @@ class Review {
 	 * Populate the object with values from 
 	 * POST-parameters.
 	 *
-	 * @return 	true if all required post parameters
-	 * 			are defined and set.
+	 * @return 	
+	 * true if validation succeeded, false otherwise.
 	 */
 	public function createFromAssoc($assoc) {
-		if (!getFromAssoc($assoc, "client_hash", NULL)) return false;
-		if (!getFromAssoc($assoc, "course_name", NULL)) return false;
-		if (!getFromAssoc($assoc, "course_code", NULL)) return false;
-		if (!getFromAssoc($assoc, "start_time", NULL)) return false;
-		if (!getFromAssoc($assoc, "end_time", NULL)) return false;
-		if (!getFromAssoc($assoc, "lecturer", NULL)) return false;
-		if (!getFromAssoc($assoc, "room", NULL)) return false;
-		if (!(getFromAssoc($assoc, "attribute_version_set", NULL) == 1)) return false;
-		if (!getFromAssoc($assoc, "attributes", NULL)) return false;
+		if (!$this->validateCreationAssoc($assoc)) {
+			return false;
+		}
 
 		/* Get all absolute values */
 		$this->clientHash 	= $assoc["client_hash"];
@@ -181,6 +175,29 @@ class Review {
 		foreach ($attrs as $a) {
 			$this->ratings[] = (boolean)$a;
 		}
+
+		return true;
+	}
+
+	/**
+	 * Validate an associative array.
+	 *
+	 * @param assoc
+	 * The array to be validatet. Usually _GET or _POST.
+	 *
+	 * @return
+	 * TRUE of the array can be used for creation, FALSE otherwise.
+	 */
+	private function validateCreationAssoc($assoc) {
+		if (!getFromAssoc($assoc, "client_hash", NULL)) return false;
+		if (!getFromAssoc($assoc, "course_name", NULL)) return false;
+		if (!getFromAssoc($assoc, "course_code", NULL)) return false;
+		if (!getFromAssoc($assoc, "start_time", NULL)) return false;
+		if (!getFromAssoc($assoc, "end_time", NULL)) return false;
+		if (!getFromAssoc($assoc, "lecturer", NULL)) return false;
+		if (!getFromAssoc($assoc, "room", NULL)) return false;
+		if (!(getFromAssoc($assoc, "attribute_version_set", NULL) == 1)) return false;
+		if (!getFromAssoc($assoc, "attributes", NULL)) return false;
 
 		return true;
 	}
