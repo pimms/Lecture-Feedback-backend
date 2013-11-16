@@ -99,16 +99,16 @@ class Review {
 	 * The unix timestamp of the review if this object was 
 	 * read from a database, undefined otherwise.
 	 */
-	public function __construct(int $id, 
-								string $courseName, 
-								string $courseCode
-								string $lecturer, 
-								int $startTime, 
-								int $endTime, 
-								string $room, 
-								mixed $ratings, 
-								string $comment, 
-								int $reviewTime) {
+	public function __construct($id, 
+								$courseName, 
+								$courseCode,
+								$lecturer, 
+								$startTime, 
+								$endTime, 
+								$room, 
+								array $ratings, 
+								comment, 
+								reviewTime) {
 		$this->id = $id;
 		$this->courseName = $courseName;
 		$this->courseCode = $courseCode;
@@ -130,12 +130,6 @@ class Review {
 		}
 	}
 
-	/**
-	 * Default constructor: set no values at all.
-	 */
-	public function __construct() {
-
-	}
 
 	/**
 	 * Populate the object with values from 
