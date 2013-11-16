@@ -107,8 +107,8 @@ class Review {
 								$endTime, 
 								$room, 
 								array $ratings, 
-								comment, 
-								reviewTime) {
+								$comment, 
+								$reviewTime) {
 		$this->id = $id;
 		$this->courseName = $courseName;
 		$this->courseCode = $courseCode;
@@ -123,7 +123,7 @@ class Review {
 
 		// Set the review time
 		if (isset($reviewTime)) {
-			$this->reviewTime = int($reviewTime);
+			$this->reviewTime = (int)$reviewTime;
 		} else {
 			$date = new DateTime();
 			$this->reviewTime = $date->getTimestamp();
@@ -161,6 +161,9 @@ class Review {
 	public function getAssocArray() {
 		$arr = array();
 
+		$reviewTime = new DateTime();
+		$reviewTime->setTimestamp($this->reviewTime);
+
 		$arr["id"] 		 	= $this->getId();
 		$arr["course"] 	 	= $this->getCourseName();
 		$arr["lecturer"] 	= $this->getLecturer();
@@ -169,7 +172,7 @@ class Review {
 		$arr["room"] 	 	= $this->getRoom();
 		$arr["ratings"]  	= $this->getRatings();
 		$arr["comment"]  	= $this->getComment();
-		$arr["review_time"] = $this->reviewTime->format("Y-m-d H:m");
+		$arr["review_time"] = $reviewTime->format("Y-m-d H:m");
 
 		return $arr;
 	}
@@ -223,14 +226,14 @@ class Review {
 		$date = new DateTime();
 
 		/* Set the date */
-		$date->setTimestamp(int($unixStart));
+		$date->setTimestamp((int)$unixStart);
 		$this->date = $date->format("Y-m-d");
 
 		// Get the starting time
 		$startTime = $date->format("H:m");
 
 		// Set the end-time and receive the string value.
-		$date->setTimestamp(int($unixEnd));
+		$date->setTimestamp((int)$unixEnd);
 		$endTime = $date->format("H:m");
 
 		// Concatenate the strings into the final value
