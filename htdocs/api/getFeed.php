@@ -60,7 +60,7 @@ function prettyPrint( $json )
 
 
 
-$json = array("staus" => "bad");
+$json = array("status" => "bad");
 
 
 if (isset($_GET["filter"])) {
@@ -87,6 +87,6 @@ if (isset($_GET["filter"])) {
 } 
 
 $jsonString = json_encode($json);
-$jsonString = prettyPrint($jsonString);
+//$jsonString = prettyPrint($jsonString);
 echo $jsonString;
 ?>
