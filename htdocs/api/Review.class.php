@@ -145,7 +145,7 @@ class Review {
 	 * @return 	true if all required post parameters
 	 * 			are defined and set.
 	 */
-	public function createFromAssocArray($assoc) {
+	public function createFromAssoc($assoc) {
 		if (!getFromAssoc($assoc, "client_hash", NULL)) return false;
 		if (!getFromAssoc($assoc, "course_name", NULL)) return false;
 		if (!getFromAssoc($assoc, "course_code", NULL)) return false;
@@ -162,12 +162,18 @@ class Review {
 		$this->courseCode 	= $assoc["course_code"];
 		$this->lecturer 	= $assoc["lecturer"];
 		$this->room 		= $assoc["room"];
-		$this->comment 		= $assoc["comment"];
+
+		if (isset($assoc["comment"])) {
+			$this->comment 		= $assoc["comment"];
+		}
 
 		/* Derive date values */
 		$unixStart = $assoc["start_time"];
 		$unixEnd = $assoc["end_time"];
 		$this->setTimeFieldsFromUnix($unixStart, $unixEnd);
+
+		/* Set the current time as the review time */
+		$this->reviewTime = (new DateTime())->getTimestamp();
 
 		/* Create the attribute array */
 		$attrs = explode(".", $assoc["attributes"]);
