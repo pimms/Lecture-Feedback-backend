@@ -20,6 +20,10 @@ class Database {
 				 hort=localhost;
 				 dbname=lecture_feedback;", 
 			    "lecture-feedback", "Cps7yHL");
+			self::$dbHandle->setAttribute(
+				PDO::ATTR_ERRMODE, 
+				PDO::ERRMODE_EXCEPTION
+			);
 		} catch (PDOException $e) {
 			echo "MySQL connection failed: " . $e->getMessage();
 			return false;

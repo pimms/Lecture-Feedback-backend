@@ -60,7 +60,7 @@ function prettyPrint( $json )
 
 
 
-$json = array();
+$json = array("staus" => "bad");
 
 
 if (isset($_GET["filter"])) {
@@ -74,18 +74,17 @@ if (isset($_GET["filter"])) {
 	$feed = new ReviewFeed();
 	$reviews = $feed->getFeed($filter, $first, $count);
 
-	// Prepare the JSON array
-	$json["status"] = "ok";
-	$json["item_count"] = count($reviews);
-	$json["items"] = array();
+    if ($reviews !== false) {
+    	// Prepare the JSON array
+    	$json["status"] = "ok";
+    	$json["item_count"] = count($reviews);
+    	$json["items"] = array();
 
-	foreach ($reviews as $review) {
-		$json["items"][] = $review->getAssocArray();	
-	}
-} else {
-	$json["status"] = "bad";
-}
-
+    	foreach ($reviews as $review) {
+    		$json["items"][] = $review->getAssocArray();	
+    	}
+    }
+} 
 
 $jsonString = json_encode($json);
 $jsonString = prettyPrint($jsonString);

@@ -1,6 +1,7 @@
 <?php
 
 require_once("Review.class.php");
+require_once("Database.class.php");
 
 /**
  * @class ReviewFeed
@@ -22,37 +23,39 @@ class ReviewFeed {
 	 * The maximum number of items to be retrieved.
 	 *
 	 * @return
-	 * Array of Review-objects.
+	 * Array of Review-objects, or false if an error was
+	 * occured.
 	 */
 	public function getFeed($filter, $first, $count) {
-		$result = array();
+		if (!Database::open()) {
+			return false;
+		}
 
-		/* Return some dummy values */
-		$obj = new Review();
-		$obj->setAllValues(	101, 
-							"Tullefag",
-							"TULL101", 
-						  	"Professor Klovnedust", 
-						  	(new DateTime())->getTimeStamp(), 
-						  	(new DateTime())->getTimeStamp(), 
-			              	"K105", 
-			              	array(false, false, false, true, true), 
-			              	"HEISANN MAMMA", 
-			              	(new DateTime())->getTimeStamp());
-		$result[] = $obj;
+		$result = array();	
+		$query = $this->getQuery($filter, $first, $count);
+		$stmt = Database::query($query);
 
-		$obj = new Review();
-		$obj->setAllValues(	102, 
-							"Tøysefag",
-							"TØYS101", 
-						  	"Professor Heipådeg", 
-						  	(new DateTime())->getTimeStamp(), 
-						  	(new DateTime())->getTimeStamp(), 
-			              	"K109", 
-			              	array(false, false, false, true, true), 
-			              	"omg fag lol", 
-			              	(new DateTime())->getTimeStamp());
-		$result[] = $obj;
+		if ($stmt == false) {
+			echo "failed to read :(";
+			return false;
+		}
+		
+		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+	        $obj = new Review();
+	        $obj->setAllValues( 
+	        	$row["courseName"],
+	        	$row["id"], 
+	        	$row["courseName"], 
+	        	$row["courseCode"], 
+	        	$row["lecturer"], 
+	        	$row["startTime"], 
+	        	$row["endTime"], 
+	        	$row["room"], 
+	        	explode(".", $row["ratings"]),
+	        	$row["comment"], 
+	        	$row["reviewTime"]);
+	        $result[] = $obj;
+	    }
 
 		return $result;
 	}
@@ -61,15 +64,25 @@ class ReviewFeed {
 	private function getQuery($filter, $first, $count) {
 		$query = "	SELECT * FROM ReviewItem ";
 
-		$query .= getQueryWhere($filter);
+		$query .= $this->getQueryWhere($filter);
 
+		$query .= " ORDER BY reviewTime DESC ";
 		$query .= " LIMIT $first, $count";
+
+		return $query;
 	}
 
 	private function getQueryWhere($filter) {
 		$where = "WHERE courseCode IN (";
+		$where .= "\"{$filter[0]}\"";
 
+		for ($i = 1; $i < count($filter); $i++) {
+			$where .= ", \"{$filter[$i]}\" ";
+		}
 
+		$where .= " ) ";
+
+		return $where;
 	}
 }
 ?>
