@@ -184,7 +184,7 @@ class Review {
 		$attrs = explode(".", $assoc["attributes"]);
 		$this->ratings = Array();
 		foreach ($attrs as $a) {
-			$this->ratings[] = (boolean)$a;
+			$this->ratings[] = $a ? "1" : "0";
 		}
 
 		return true;
@@ -249,17 +249,34 @@ class Review {
 		/* Create a dot-separated string of the rating values */
 		$ratingDSV = implode(".", $this->ratings);
 
+		/* Don't insert the comment value if the value
+		 * doesn't exist. 
+		 */
+		$commentValue = "";
+		$commentColumn = "";
+		if ($this->comment && strlen($this->comment) > 0) {
+			$commentColumn = ", comment ";
+			$commentValue = ", \"" . $this->comment . "\"";
+		}
+
 		$query = "INSERT INTO ReviewItem(
-					courseName, courseCode, lecturer,
-					startTime, endTime, room,
-					ratings, comment
+					courseName, courseCode, 
+					lecturer, 	startTime, 
+					endTime, 	room,
+					ratings   {$commentColumn}
 			 		) 
 					VALUES (
-					{$this->courseName}, {$this->courseCode},
-					{$this->lecturer}, {$this->startTime},
-					{$this->endTime}, {$this->room}, 
-					{$ratingDSV}, {$this->comment}
+					\"{$this->courseName}\",
+					\"{$this->courseCode}\",
+					\"{$this->lecturer}\", 	
+					{$this->startTime},
+					{$this->endTime}, 	
+					\"{$this->room}\", 
+					\"{$ratingDSV}\"
+					{$commentValue}
 					)";
+
+		echo "Query: <br/>$query";
 
 		$result = Database::query($query);
 		Database::close();

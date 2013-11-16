@@ -45,8 +45,7 @@ class Database {
 	 * Close the static PDO object
 	 */
 	public static function close() {
-		self::$dbHandle->close();
-		self::$dbHandle = 0;
+		self::$dbHandle = NULL;
 	}
 }
 
