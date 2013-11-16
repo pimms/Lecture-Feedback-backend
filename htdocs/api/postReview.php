@@ -12,19 +12,20 @@ http://localhost/lfb/api/postReview.php?client_hash=dustehash&course_name=mobil%
 /* The object retrieved from request contains errors and we have to cancel the
 storage of data. */
 $parse_error = FALSE;
-$responseJson = Array();
+
+/* The status is overriden later if things are OK */
+$responseJson = Array("status" => "bad");
 
 
 $review = new Review();
 if ($review->createFromAssoc($_GET)) {
 	/* Write the review to DB, return ok */
-	$responseJson["status"] = "ok";
-	$responseJson["item"] = $review->getAssocArray();
-
-} else {
-	/* Return bad status */
-	$responseJson["status"] = "bad";
-}
+	if ($review->writeToDatabase()) {
+		$responseJson["status"] = "ok";
+	} else {
+		$responseJson["reason"] = "Failed to write to database";
+	}
+} 
 
 echo json_encode($responseJson);
 

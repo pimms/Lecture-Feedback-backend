@@ -15,8 +15,13 @@ class Database {
 	 */
 	public static function open() {
 		try {
-			self::$dbHandle = new PDO("mysql:host=localhost;dbname=oblig", "root", "");
+			self::$dbHandle = new PDO(
+				"mysql:
+				 hort=localhost;
+				 dbname=lecture_feedback;", 
+			    "lecture-feedback", "Cps7yHL");
 		} catch (PDOException $e) {
+			echo "MySQL connection failed: " . $e->getMessage();
 			return false;
 		}
 

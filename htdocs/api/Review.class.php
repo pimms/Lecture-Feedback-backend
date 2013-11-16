@@ -1,6 +1,7 @@
 <?php
 
 require_once("Utils.php");
+require_once("Database.class.php");
 
 /**
  * @class Review
@@ -34,6 +35,16 @@ class Review {
 	 * STRING containing the name of the lecturer(s).
 	 */
 	private $lecturer;
+
+	/**
+	 * UNIX TIMESTAMP of the start time of the lecture
+	 */
+	private $startTime;
+
+	/**
+	 * UNIX TIMESTAMP of the end time of the lecture
+	 */
+	private $endTime;
 
 	/**
 	 * STRING containing the time on the form "hh:mm - hh:mm"
@@ -223,6 +234,40 @@ class Review {
 	}
 
 
+	/**
+	 * Write the contents of this review to
+	 * database.
+	 *
+	 * @return
+	 * TRUE if write succeeded, FALSE otherwise.
+	 */
+	public function writeToDatabase() {
+		if (!Database::open()) {
+			return false;
+		}
+
+		/* Create a dot-separated string of the rating values */
+		$ratingDSV = implode(".", $this->ratings);
+
+		$query = "INSERT INTO ReviewItem(
+					courseName, courseCode, lecturer,
+					startTime, endTime, room,
+					ratings, comment
+			 		) 
+					VALUES (
+					{$this->courseName}, {$this->courseCode},
+					{$this->lecturer}, {$this->startTime},
+					{$this->endTime}, {$this->room}, 
+					{$ratingDSV}, {$this->comment}
+					)";
+
+		$result = Database::query($query);
+		Database::close();
+
+		return $result;
+	}
+
+
 	public function getId() {
 		return $this->id;
 	}
@@ -268,6 +313,9 @@ class Review {
 	 * the same DAY as unixStart.
 	 */
 	public function setTimeFieldsFromUnix($unixStart, $unixEnd) {
+		$this->startTime = $unixStart;
+		$this->endTime = $unixEnd;
+
 		$date = new DateTime();
 
 		/* Set the date */
