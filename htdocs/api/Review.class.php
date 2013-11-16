@@ -221,7 +221,8 @@ class Review {
 		$reviewTime->setTimestamp($this->reviewTime);
 
 		$arr["id"] 		 	= $this->getId();
-		$arr["course"] 	 	= $this->getCourseName();
+		$arr["course_name"]	= $this->getCourseName();
+		$arr["course_code"] = $this->getCourseCode();
 		$arr["lecturer"] 	= $this->getLecturer();
 		$arr["time"] 	 	= $this->getTime();
 		$arr["date"] 	 	= $this->getDate();
@@ -289,6 +290,10 @@ class Review {
 
 	public function getCourseName() {
 		return $this->courseName;
+	}
+
+	public function getCourseCode() {
+		return $this->courseCode;
 	}
 
 	public function getLecturer() {
