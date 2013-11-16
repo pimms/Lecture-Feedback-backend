@@ -41,7 +41,12 @@ class ReviewFeed {
 		}
 		
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			/* Convert the "1" and "0"s to true and false. */
 			$ratings = explode(".", $row["ratings"]);
+			foreach ($ratings as & $r) {
+				$r = ($r == "1") ? true : false;
+			}
+
 
 	        $obj = new Review();
 	        $obj->setAllValues( 
