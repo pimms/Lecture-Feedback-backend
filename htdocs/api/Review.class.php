@@ -1,5 +1,7 @@
 <?php
 
+require_once("Utils.php");
+
 /**
  * @class Review
  * Contains a review about a single lecture
@@ -63,6 +65,11 @@ class Review {
 	 */
 	private $reviewTime;
 
+
+	public function __construct() {
+		/* Do jack diddly squat yo */
+	}
+
 	/**
 	 * @param id 
 	 * -1 if unkown, the unique ID of the review otherwise.
@@ -99,7 +106,7 @@ class Review {
 	 * The unix timestamp of the review if this object was 
 	 * read from a database, undefined otherwise.
 	 */
-	public function __construct($id, 
+	public function setAllValues($id, 
 								$courseName, 
 								$courseCode,
 								$lecturer, 
@@ -134,27 +141,42 @@ class Review {
 	/**
 	 * Populate the object with values from 
 	 * POST-parameters.
+	 *
+	 * @return 	true if all required post parameters
+	 * 			are defined and set.
 	 */
-	public function createFromPostParameters() {
+	public function createFromAssocArray($assoc) {
+		if (!getFromAssoc($assoc, "client_hash", NULL)) return false;
+		if (!getFromAssoc($assoc, "course_name", NULL)) return false;
+		if (!getFromAssoc($assoc, "course_code", NULL)) return false;
+		if (!getFromAssoc($assoc, "start_time", NULL)) return false;
+		if (!getFromAssoc($assoc, "end_time", NULL)) return false;
+		if (!getFromAssoc($assoc, "lecturer", NULL)) return false;
+		if (!getFromAssoc($assoc, "room", NULL)) return false;
+		if (!(getFromAssoc($assoc, "attribute_version_set", NULL) == 1)) return false;
+		if (!getFromAssoc($assoc, "attributes", NULL)) return false;
+
 		/* Get all absolute values */
-		$this->clientHash 	= $_POST["client_hash"];
-		$this->courseName 	= $_POST["course_name"];
-		$this->courseCode 	= $_POST["course_code"];
-		$this->lecturer 	= $_POST["lecturer"];
-		$this->room 		= $_POST["room"];
-		$this->comment 		= $_POST["comment"];
+		$this->clientHash 	= $assoc["client_hash"];
+		$this->courseName 	= $assoc["course_name"];
+		$this->courseCode 	= $assoc["course_code"];
+		$this->lecturer 	= $assoc["lecturer"];
+		$this->room 		= $assoc["room"];
+		$this->comment 		= $assoc["comment"];
 
 		/* Derive date values */
-		$unixStart = $_POST["start_time"];
-		$unixEnd = $_POST["end_time"];
+		$unixStart = $assoc["start_time"];
+		$unixEnd = $assoc["end_time"];
 		$this->setTimeFieldsFromUnix($unixStart, $unixEnd);
 
 		/* Create the attribute array */
-		$attrs = explode(".", $_POST["attributes"]);
+		$attrs = explode(".", $assoc["attributes"]);
 		$this->ratings = Array();
 		foreach ($attrs as $a) {
-			$this->ratings[] = boolean($a);
+			$this->ratings[] = (boolean)$a;
 		}
+
+		return true;
 	}
 
 

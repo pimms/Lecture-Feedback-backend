@@ -28,7 +28,8 @@ class ReviewFeed {
 		$result = array();
 
 		/* Return some dummy values */
-		$obj = new Review(	101, 
+		$obj = new Review();
+		$obj->setAllValues(	101, 
 							"Tullefag",
 							"TULL101", 
 						  	"Professor Klovnedust", 
@@ -40,7 +41,8 @@ class ReviewFeed {
 			              	(new DateTime())->getTimeStamp());
 		$result[] = $obj;
 
-		$obj = new Review(	102, 
+		$obj = new Review();
+		$obj->setAllValues(	102, 
 							"Tøysefag",
 							"TØYS101", 
 						  	"Professor Heipådeg", 
