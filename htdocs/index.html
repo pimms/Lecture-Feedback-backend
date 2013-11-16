@@ -62,7 +62,7 @@
 			Service base URL:&nbsp;&nbsp;&nbsp;<b>postReview.php</b>
 
 			<h3>Parameters</h3>
-			<li>student_hash <i>REQUIRED</i></li>
+			<li>client_hash <i>REQUIRED</i></li>
 			<i><u>Type:</u></i> SHA-1 hash of the ANDROID_ID and our
 			super secret salt, "SpiceGurls". <br/><br/>
 			<i><u>Example:</u></i>
@@ -74,11 +74,18 @@
 			<i><u>Example:</u></i> 
 			room = "K105";<br><br>
 
-			<li>time <i>REQUIRED</i></li>
+			<li>start_time <i>REQUIRED</i></li>
 			<i><u>Type:</u></i> UNIX timestamp of the starting time
 			of the lecture.<br><br>
 			<i><u>Example:</u></i>
 			String time = new Date("2013-12-31 10:00").unixTimestamp();
+			<br><br>
+
+			<li>end_time <i>REQUIRED</i></li>
+			<i><u>Type:</u></i> UNIX timestamp of the ending time
+			of the lecture.<br><br>
+			<i><u>Example:</u></i>
+			String time = new Date("2013-12-31 12:00").unixTimestamp();
 			<br><br>
 
 			<li>attribute_version_set <i>REQUIRED</i></li>
