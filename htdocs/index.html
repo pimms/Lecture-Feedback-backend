@@ -12,6 +12,15 @@
 		</p>
 		<br/><br/>
 
+		<!-- Template parameter
+			<li> <i></i></li>
+			<i><u>Type:</u></i>
+			<br><br>
+			<i><u>Example:</u></i>
+			<br><br>
+		-->
+
+
 		<!-- GET FEED -->
 		<h2>Retrieve feed of reviews</h2>
 		<p>
@@ -67,6 +76,27 @@
 			super secret salt, "SpiceGurls". <br/><br/>
 			<i><u>Example:</u></i>
 			student_hash = SHA1(ANDROID_ID + "SpiceGurls");<br><br>
+
+			<li>course_name <i>REQUIRED</i></li>
+			<i><u>Type:</u></i> String holding the name of the course.<br><br>
+			<i><u>Example:</u></i>
+			course_name = "Algoritmiske Metoder"
+			<br><br>
+
+			<li>course_code <i>REQUIRED</i></li>
+			<i><u>Type:</u></i> String holding HiG's code for this course.<br><br>
+			<i><u>Example:</u></i>
+			course_code = "IMT3672"
+			<br><br>
+
+			<li>lecturer <i>REQUIRED</i></li>
+			<i><u>Type:</u></i>
+			String containing the name of the lecturer exactly
+			as it appears on TimeEdit.
+			<br><br>
+			<i><u>Example:</u></i>
+			lecturer = "Haug";
+			<br><br>
 
 			<li>room <i>REQUIRED</i></li>
 			<i><u>Type:</u></i> 
