@@ -276,8 +276,6 @@ class Review {
 					{$commentValue}
 					)";
 
-		echo "Query: <br/>$query";
-
 		$result = Database::query($query);
 		Database::close();
 
