@@ -13,7 +13,7 @@ class ReviewFeed {
 	 * Get an array of feed items.
 	 *
 	 * @param filter
-	 * Array of string containing TimeEdit course IDs ("xxxxxx.183")
+	 * Array of string containing HiG course codes
 	 *
 	 * @param first
 	 * The first item in the total list to be returned 
@@ -55,6 +55,21 @@ class ReviewFeed {
 		$result[] = $obj;
 
 		return $result;
+	}
+
+
+	private function getQuery($filter, $first, $count) {
+		$query = "	SELECT * FROM ReviewItem ";
+
+		$query .= getQueryWhere($filter);
+
+		$query .= " LIMIT $first, $count";
+	}
+
+	private function getQueryWhere($filter) {
+		$where = "WHERE courseCode IN (";
+
+
 	}
 }
 ?>
