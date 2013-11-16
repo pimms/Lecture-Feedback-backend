@@ -56,6 +56,57 @@
 		</p>
 
 		
+		<!-- POST REVIEW -->
+		<h2>Post a review</h2>
+		<p>
+			Service base URL:&nbsp;&nbsp;&nbsp;<b>postReview.php</b>
+
+			<h3>Parameters</h3>
+			<li>student_hash <i>REQUIRED</i></li>
+			<i><u>Type:</u></i> SHA-1 hash of the ANDROID_ID and our
+			super secret salt, "SpiceGurls". <br/><br/>
+			<i><u>Example:</u></i>
+			student_hash = SHA1(ANDROID_ID + "SpiceGurls");<br><br>
+
+			<li>room <i>REQUIRED</i></li>
+			<i><u>Type:</u></i> 
+			String containing the name of the room.<br><br>
+			<i><u>Example:</u></i> 
+			room = "K105";<br><br>
+
+			<li>time <i>REQUIRED</i></li>
+			<i><u>Type:</u></i> UNIX timestamp of the starting time
+			of the lecture.<br><br>
+			<i><u>Example:</u></i>
+			String time = new Date("2013-12-31 10:00").unixTimestamp();
+			<br><br>
+
+			<li>attribute_version_set <i>REQUIRED</i></li>
+			<i><u>Type:</u></i> Int holding a value defining
+			which version of the attribute set is used.
+			<br><br>
+			<i><u>Example:</u></i> Must be 1.
+			<br><br>
+
+			<li>attributes <i>REQUIRED</i></li>
+			<i><u>Type:</u></i> 
+			Dot-separated boolean values.
+			<br><br>
+			<i><u>Example:</u></i>
+			attributes = "0.1.1.1.0";
+
+			<li>comment <i>OPTIONAL</i><li>
+			<i><u>Type:</u></i> String up to 333 characters in length.
+			<br><br>
+			<i><u>Example:</u></i>
+			comment = "Great lecture prof";
+			<br><br>
+
+			<h3>Return</h3>
+			{<br>
+			&emsp;"status": "ok"/bad<br>
+			}<br>
+		</p>
 		
 	</body>
 </html>
