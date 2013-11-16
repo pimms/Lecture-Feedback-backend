@@ -41,9 +41,10 @@ class ReviewFeed {
 		}
 		
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			$ratings = explode(".", $row["ratings"]);
+
 	        $obj = new Review();
 	        $obj->setAllValues( 
-	        	$row["courseName"],
 	        	$row["id"], 
 	        	$row["courseName"], 
 	        	$row["courseCode"], 
@@ -51,7 +52,7 @@ class ReviewFeed {
 	        	$row["startTime"], 
 	        	$row["endTime"], 
 	        	$row["room"], 
-	        	explode(".", $row["ratings"]),
+	        	$ratings,
 	        	$row["comment"], 
 	        	$row["reviewTime"]);
 	        $result[] = $obj;
