@@ -28,12 +28,28 @@ class ReviewFeed {
 		$result = array();
 
 		/* Return some dummy values */
-		$obj = new Review(101, "Fag A", "Professor Robertsen", "10:00 - 13:00", (new DateTime())->format('Y-m-d'), 
-			              "K105", array(false, false, false, true, true), "HEISANN MAMMA", new DateTime());
+		$obj = new Review(	101, 
+							"Tullefag",
+							"TULL101", 
+						  	"Professor Klovnedust", 
+						  	(new DateTime())->getTimeStamp(), 
+						  	(new DateTime())->getTimeStamp(), 
+			              	"K105", 
+			              	array(false, false, false, true, true), 
+			              	"HEISANN MAMMA", 
+			              	(new DateTime())->getTimeStamp());
 		$result[] = $obj;
 
-		$obj = new Review(102, "Fag B", "Professor Robertsen", "12:00 - 15:00", (new DateTime())->format('Y-m-d'), 
-			              "K105", array(false, false, false, true, true), "digger faget, yolo", new DateTime());
+		$obj = new Review(	102, 
+							"Tøysefag",
+							"TØYS101", 
+						  	"Professor Heipådeg", 
+						  	(new DateTime())->getTimeStamp(), 
+						  	(new DateTime())->getTimeStamp(), 
+			              	"K109", 
+			              	array(false, false, false, true, true), 
+			              	"omg fag lol", 
+			              	(new DateTime())->getTimeStamp());
 		$result[] = $obj;
 
 		return $result;

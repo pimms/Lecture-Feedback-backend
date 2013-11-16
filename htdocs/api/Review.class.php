@@ -11,9 +11,22 @@ class Review {
 	private $id;
 
 	/**
+	 * STRING containing the 20-char SHA-1 hash
+	 * identifying the posting user.
+	 */
+	private $clientHash;
+
+	/**
 	 * STRING containing the name of the course.
+	 * Example: "Mobile Development Project"
 	 */
 	private $courseName;
+
+	/**
+	 * STRING containing the code of the course.
+	 * Example: "IMT3672"
+	 */
+	private $courseCode;
 
 	/**
 	 * STRING containing the name of the lecturer(s).
@@ -46,23 +59,102 @@ class Review {
 	private $comment;
 
 	/**
-	 * DATETIME containing the date and time when the review was made
+	 * UNIX TIMESTAMP of the review time.
 	 */
 	private $reviewTime;
 
-
-	public function __construct($id, $courseName, $lecturer, $time, 
-								$date, $room, $ratings, $comment, $reviewTime) {
+	/**
+	 * @param id 
+	 * -1 if unkown, the unique ID of the review otherwise.
+	 *
+	 * @param courseName
+	 * The name of the course. Example: "Mobile Development Project".
+	 *
+	 * @param courseCode 
+	 * The HiG code for this course. Example: "IMT3672".
+	 *
+	 * @param lecturer
+	 * The name of the lecturer as it appears on TimeEdit.
+	 *
+	 * @param startTime
+	 * UNIX timestamp for the starting time of the lecture. 
+	 * STRING or INT.
+	 *
+	 * @param endTime
+	 * UNIX timestamp for the ending time of the lecture.
+	 * STRING or INT.
+	 *
+	 * @param room
+	 * The room in which the lecture is held, exactly as it
+	 * is displayed on TimeEdit.
+	 *
+	 * @param ratings 
+	 * Boolean array containing the ratings of the attributes.
+	 * Example: [0, 0, 1, 1, 0]
+	 *
+	 * @param comment
+	 * The comment of the lecture, or NULL if none was given.
+	 *
+	 * @param reviewTime
+	 * The unix timestamp of the review if this object was 
+	 * read from a database, undefined otherwise.
+	 */
+	public function __construct($id, $courseName, $courseCode
+								$lecturer, $startTime, $endTime, 
+								$room, $ratings, $comment, 
+								$reviewTime) {
 		$this->id = $id;
 		$this->courseName = $courseName;
+		$this->courseCode = $courseCode;
 		$this->lecturer = $lecturer;
-		$this->time = $time;
-
-		$this->date = $date;
+		
 		$this->room = $room;
 		$this->ratings = $ratings;
 		$this->comment = $comment;
-		$this->reviewTime = $reviewTime;
+
+		// Set "time" and "date" 
+		$this->setTimeFieldsFromUnix($startTime, $endTime);
+
+		// Set the review time
+		if (isset($reviewTime)) {
+			$this->reviewTime = int($reviewTime);
+		} else {
+			$date = new DateTime();
+			$this->reviewTime = $date->getTimestamp();
+		}
+	}
+
+	/**
+	 * Default constructor: set no values at all.
+	 */
+	public function __construct() {
+
+	}
+
+	/**
+	 * Populate the object with values from 
+	 * POST-parameters.
+	 */
+	public function createFromPostParameters() {
+		/* Get all absolute values */
+		$this->clientHash 	= $_POST["client_hash"];
+		$this->courseName 	= $_POST["course_name"];
+		$this->courseCode 	= $_POST["course_code"];
+		$this->lecturer 	= $_POST["lecturer"];
+		$this->room 		= $_POST["room"];
+		$this->comment 		= $_POST["comment"];
+
+		/* Derive date values */
+		$unixStart = $_POST["start_time"];
+		$unixEnd = $_POST["end_time"];
+		$this->setTimeFieldsFromUnix($unixStart, $unixEnd);
+
+		/* Create the attribute array */
+		$attrs = explode(".", $_POST["attributes"]);
+		$this->ratings = Array();
+		foreach ($attrs as $a) {
+			$this->ratings[] = boolean($a);
+		}
 	}
 
 
@@ -113,6 +205,36 @@ class Review {
 
 	public function getComment() {
 		return $this->comment;
+	}
+
+
+	/**
+	 * Set the member attributes "time" and "date" from
+	 * start and end UNIX timestamps.
+	 *
+	 * @param unixStart
+	 * The unix timestamp of the lecture starting time.
+	 *
+	 * @param unixEnd
+	 * The unix timestamp of the lecture ending time. Must be 
+	 * the same DAY as unixStart.
+	 */
+	public function setTimeFieldsFromUnix($unixStart, $unixEnd) {
+		$date = new DateTime();
+
+		/* Set the date */
+		$date->setTimestamp(int($unixStart));
+		$this->date = $date->format("Y-m-d");
+
+		// Get the starting time
+		$startTime = $date->format("H:m");
+
+		// Set the end-time and receive the string value.
+		$date->setTimestamp(int($unixEnd));
+		$endTime = $date->format("H:m");
+
+		// Concatenate the strings into the final value
+		$this->time = $startTime . " - " . $endTime;
 	}
 }
 
