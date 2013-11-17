@@ -229,7 +229,7 @@ class Review {
 		$arr["room"] 	 	= $this->getRoom();
 		$arr["ratings"]  	= $this->getRatings();
 		$arr["comment"]  	= $this->getComment();
-		$arr["review_time"] = $reviewTime->format("Y-m-d H:m");
+		$arr["review_time"] = $reviewTime->format("Y-m-d H:i");
 
 		return $arr;
 	}
