@@ -343,11 +343,11 @@ class Review {
 		$this->date = $date->format("Y-m-d");
 
 		// Get the starting time
-		$startTime = $date->format("H:m");
+		$startTime = $date->format("H:i");
 
 		// Set the end-time and receive the string value.
 		$date->setTimestamp((int)$unixEnd);
-		$endTime = $date->format("H:m");
+		$endTime = $date->format("H:i");
 
 		// Concatenate the strings into the final value
 		$this->time = $startTime . " - " . $endTime;
