@@ -131,7 +131,24 @@
 			Dot-separated boolean values.
 			<br><br>
 			<i><u>Example:</u></i>
-			attributes = "0.1.1.1.0";
+			attributes = "0.1.1.1.0";<br><br>
+
+			<li>hash <i>REQUIRED</i></li>
+			<i><u>Type:</u></i> String containing the SHA1 of
+			selected unique lecture properties.
+			<br><br>
+			<i><u>Example:</u></i><br>
+			<i>
+				hash = SHA1(<br>   
+				&emsp;startTime, // The UNIX timestamp string of the start time of the lecture<br>
+				&emsp;endTime, // The UNIX timestamp string of the end time of the lecture<br>
+				&emsp;courseName, // The course name as it appears on TimeEdit<br>
+				&emsp;courseCode, // The HiG code of the course<br>
+				&emsp;room, // The room as it appears on TimeEdit<br>
+				&emsp;lecturer // The lecturer as it appears on TimeEdit<br>
+				)<br>
+			</i>
+			<br><br>
 
 			<li>comment <i>OPTIONAL</i><li>
 			<i><u>Type:</u></i> String up to 333 characters in length.
@@ -144,6 +161,29 @@
 			{<br>
 			&emsp;"status": "ok"/bad<br>
 			}<br>
+		</p>
+
+		<h2>Statistics</h2>
+		<p>
+			Service base URL: getStats.php<br><br>
+			All statistics-calls are defined by a required parameter,<i> action</i>.
+			<br><br>
+			<h3>Total votes for course</h3>
+			<b>action: </b>course_votes<br><br>
+			Other parameters:
+
+			<li>course <i>REQUIRED</i></li>
+			<i><u>Type:</u></i> String, HiG code of  the course.<br>
+			<i><u>Example:</u></i> "IMT3672"<br>
+			<i><u>Return:</u></i><br>
+			{<br>
+			&emsp;"status": "ok"/"bad"<br>
+			&emsp;&lt;course code&gt;: {<br>
+			&emsp;&emsp;"positive": N,<br>
+			&emsp;&emsp;"negative": M<br>
+			&emsp;}<br>
+			}
+
 		</p>
 		
 	</body>
