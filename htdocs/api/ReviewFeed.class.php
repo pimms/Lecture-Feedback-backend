@@ -75,6 +75,7 @@ class ReviewFeed {
 		$query .= " ORDER BY reviewTime DESC ";
 		$query .= " LIMIT $first, $count";
 
+		echo $query;
 		return $query;
 	}
 
