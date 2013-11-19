@@ -277,12 +277,12 @@ class Review {
 					'{$this->courseName}',
 					'{$this->courseCode}',
 					'{$this->lecturer}', 	
-					{$this->startTime},
-					{$this->endTime}, 	
+					 {$this->startTime},
+				 	 {$this->endTime}, 	
 					'{$this->room}', 
 					'{$ratingDSV}',
 					'{$this->hash}'
-					{$commentValue}
+					 {$commentValue}
 					)";
 
 		$result = Database::query($query);

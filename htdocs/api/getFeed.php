@@ -69,10 +69,11 @@ if (isset($_GET["filter"])) {
 	$count = getFromAssoc($_GET, "count", 25);
 	
     $filter = explode(",", $_GET["filter"]);
+    $hash = getFromAssoc($_GET, "hash", null);
 
 	// Retrieve the feed of items
 	$feed = new ReviewFeed();
-	$reviews = $feed->getFeed($filter, $first, $count);
+	$reviews = $feed->getFeed($filter, $first, $count, $hash);
 
     if ($reviews !== false) {
     	// Prepare the JSON array

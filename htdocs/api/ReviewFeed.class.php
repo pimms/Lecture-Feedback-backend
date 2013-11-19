@@ -26,13 +26,13 @@ class ReviewFeed {
 	 * Array of Review-objects, or false if an error was
 	 * occured.
 	 */
-	public function getFeed($filter, $first, $count) {
+	public function getFeed($filter, $first, $count, $hash) {
 		if (!Database::open()) {
 			return false;
 		}
 
 		$result = array();	
-		$query = $this->getQuery($filter, $first, $count);
+		$query = $this->getQuery($filter, $first, $count, $hash);
 		$stmt = Database::query($query);
 
 		if ($stmt == false) {
@@ -67,10 +67,10 @@ class ReviewFeed {
 	}
 
 
-	private function getQuery($filter, $first, $count) {
+	private function getQuery($filter, $first, $count, $hash) {
 		$query = "	SELECT * FROM ReviewItem ";
 
-		$query .= $this->getQueryWhere($filter);
+		$query .= $this->getQueryWhere($filter, $hash);
 
 		$query .= " ORDER BY reviewTime DESC ";
 		$query .= " LIMIT $first, $count";
@@ -78,7 +78,7 @@ class ReviewFeed {
 		return $query;
 	}
 
-	private function getQueryWhere($filter) {
+	private function getQueryWhere($filter, $hash) {
 		$where = "WHERE courseCode IN (";
 		$where .= "\"{$filter[0]}\"";
 
@@ -87,6 +87,10 @@ class ReviewFeed {
 		}
 
 		$where .= " ) ";
+
+		if ($hash != null) {
+			$where .= " AND hash='{$hash}' ";
+		}
 
 		return $where;
 	}
