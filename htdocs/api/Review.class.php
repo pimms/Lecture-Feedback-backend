@@ -76,6 +76,11 @@ class Review {
 	 */
 	private $reviewTime;
 
+	/**
+	 * STRING holding the SHA1 of the lecture 
+	 */
+	private $hash;
+
 
 	public function __construct() {
 		/* Do jack diddly squat yo */
@@ -167,6 +172,7 @@ class Review {
 		$this->courseCode 	= $assoc["course_code"];
 		$this->lecturer 	= $assoc["lecturer"];
 		$this->room 		= $assoc["room"];
+		$this->hash 		= $assoc["hash"];
 
 		if (isset($assoc["comment"])) {
 			$this->comment 		= $assoc["comment"];
@@ -264,16 +270,18 @@ class Review {
 					courseName, courseCode, 
 					lecturer, 	startTime, 
 					endTime, 	room,
-					ratings   {$commentColumn}
+					ratings, 	hash   
+					{$commentColumn}
 			 		) 
 					VALUES (
-					\"{$this->courseName}\",
-					\"{$this->courseCode}\",
-					\"{$this->lecturer}\", 	
+					'{$this->courseName}',
+					'{$this->courseCode}',
+					'{$this->lecturer}', 	
 					{$this->startTime},
 					{$this->endTime}, 	
-					\"{$this->room}\", 
-					\"{$ratingDSV}\"
+					'{$this->room}', 
+					'{$ratingDSV}',
+					'{$this->hash}'
 					{$commentValue}
 					)";
 
