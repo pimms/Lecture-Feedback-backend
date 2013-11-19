@@ -181,12 +181,25 @@
 			<i><u>Example:</u></i> "IMT3672"<br>
 			<i><u>Return:</u></i><br>
 			{<br>
-			&emsp;"status": "ok"/"bad"<br>
-			&emsp;&lt;course code&gt;: {<br>
-			&emsp;&emsp;"positive": N,<br>
-			&emsp;&emsp;"negative": M<br>
-			&emsp;}<br>
-			}
+			&emsp;"status": "ok"/"bad",<br>
+			&emsp;"positive": N,<br>
+			&emsp;"negative": M<br>
+			}<br><br>
+
+			<h3>Total votes for lecture</h3>
+			<b>action: </b>lecture_votes<br>
+			Additional parameters:<br>
+			<li>hash <i>REQUIRED</i></li>
+			<i><u>Type:</u></i> The lecture string as defined everywhere else.
+			<br><br>
+			<i><u>Example:</u></i> aeruheriaerblaieraeiurlhaerlkhjaer hash shit
+			<br>
+			<i><u>Return:</u></i><br>
+			{<br>
+			&emsp;"status": "ok"/"bad",<br>
+			&emsp;"positive": N,<br>
+			&emsp;"negative": M<br>
+			}<br><br>
 
 		</p>
 		
