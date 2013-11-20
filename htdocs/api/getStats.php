@@ -22,7 +22,9 @@ if ($action == "course_votes") {
 	$json = array_merge($json, Statistics::getTotalVotesForLecture($hash));
 } else if ($action == "lecture_votes_all") {
 	$course = getFromAssoc($_GET, "course", false) or dieBad();
-	$json = array_merge($json, Statistics::getAllLectures($course));
+	$first = getFromAssoc($_GET, "first", 0);
+	$count = getFromAssoc($_GET, "count", 25);
+	$json = array_merge($json, Statistics::getAllLectures($course, $first, $count));
 } else {
 	dieBad();
 }

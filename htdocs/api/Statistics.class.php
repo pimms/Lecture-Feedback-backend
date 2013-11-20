@@ -27,7 +27,6 @@ class Statistics {
 		return self::getTotalVotes($course);
 	}
 
-
 	/**
 	 * Get the total number of votes from a lecture.
 	 *
@@ -40,6 +39,27 @@ class Statistics {
 	public static function getTotalVotesForLecture($hash) {
 		$where = "WHERE hash='{$hash}'";
 		return self::getTotalVotes($where);
+	}
+
+
+	/** 
+	 * Returns "count" lectures in a course, starting at "first".
+	 * Maps directly to getStats?action=lecture_votes_all.
+	 *
+	 * @param course
+	 * The HiG course code for the course.
+	 *
+	 * @param first
+	 * The first item to be returned in the result set.
+	 *
+	 * @param count
+	 * The maximum number of items to be returned in the result set.
+	 *
+	 * @return
+	 * See ../index.html.
+	 */
+	public static function getAllLectures($course, $first, $count) {
+
 	}
 
 
@@ -105,6 +125,27 @@ class Statistics {
 				."	FROM ReviewItem "
 				." {$whereClause} "
 				.")T";
+		return $query;
+	}
+
+	private static function getAllLecturesQuery($course, $first, $count) {
+		$count = NUM_ATTRIBUTES;
+		$query = "SELECT "
+				."	SUM(len) AS positive,"
+				."	COUNT(*)*{$count} as total, "
+				."	hash, courseName, courseCode, "
+				."	startTime, endTime, lecturer, room "
+				."FROM ( "
+				."	SELECT LENGTH(ratings) - LENGTH(REPLACE(ratings,'1','')) AS len, "
+				."			hash, courseName, courseCode, startTime, endTime, lecturer, "
+				." 			room "
+				."	FROM ReviewItem "
+				."	WHERE courseCode='{$course}' "
+				.")T"
+				."GROUP BY hash "
+				."ORDER BY startTime DESC "
+				."LIMIT {$first}, {$count}";
+
 		return $query;
 	}
 }
