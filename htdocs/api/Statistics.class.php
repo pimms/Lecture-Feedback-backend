@@ -95,7 +95,6 @@ class Statistics {
 			$time = $start->format("H:i") ." - ". $end->format("H:i");
 			$date = $start->format("Y-m-d");
 
-			$item["id"] 			= $row["id"];
 			$item["course_name"]	= $row["courseName"];
 			$item["course_code"] 	= $row["courseCode"];
 			$item["lecturer"] 		= $row["lecturer"];
@@ -213,11 +212,11 @@ class Statistics {
 		$query = "SELECT "
 				."	SUM(len) AS positive,"
 				."	COUNT(*)*{$count} as total, "
-				."	id, hash, courseName, courseCode, "
+				."	hash, courseName, courseCode, "
 				."	startTime, endTime, lecturer, room "
 				."FROM ( "
 				."	SELECT LENGTH(ratings) - LENGTH(REPLACE(ratings,'1','')) AS len, "
-				."			id, hash, courseName, courseCode, "
+				."			hash, courseName, courseCode, "
 				." 			startTime, endTime, lecturer, room "
 				."	FROM ReviewItem "
 				."	WHERE courseCode='{$course}' "
