@@ -25,7 +25,6 @@ if ($action == "course_votes") {
 	$first = getFromAssoc($_GET, "first", 0);
 	$count = getFromAssoc($_GET, "count", 25);
 	$json = array_merge($json, Statistics::getAllLectures($course, $first, $count));
-	echo "heisann";
 } else {
 	dieBad();
 }

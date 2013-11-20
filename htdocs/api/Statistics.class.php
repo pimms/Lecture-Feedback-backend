@@ -65,7 +65,7 @@ class Statistics {
 
 		$json = Array(	"first" => $first, 
 						"count" => $count,
-						"item_count" => $stmt->rowCount,
+						"item_count" => $stmt->rowCount(),
 						"items" => Array() );
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			$item = Array();
@@ -173,9 +173,9 @@ class Statistics {
 				." 			startTime, endTime, lecturer, room "
 				."	FROM ReviewItem "
 				."	WHERE courseCode='{$course}' "
-				.")T"
+				.")T "
 				."GROUP BY hash "
-				."ORDER BY startTime DESC "
+				."ORDER BY startTime DESC, endTime ASC, positive DESC "
 				."LIMIT {$first}, {$count}";
 
 		return $query;
