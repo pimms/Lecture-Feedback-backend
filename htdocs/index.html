@@ -178,16 +178,16 @@
 			<h3>Total votes for courses</h3>
 			<b>action: </b>course_votes<br><br>
 			Other parameters:
-			<li>course <i>REQUIRED</i></li>
+			<li>courses <i>REQUIRED</i></li>
 			<i><u>Type:</u></i> CSV String, of HiG codes of  the courses.<br>
 			<i><u>Example:</u></i> "IMT3672,IMT2021,IMT3601"<br>
 			<i><u>Return:</u></i><br>
 			{<br>
 			&emsp;"status": "ok"/"bad",<br>
-			&emsp;"num_items" : N,<br>
+			&emsp;"item_count" : N,<br>
 			&emsp;"items" : [<br>
 			&emsp;&emsp;{<br>
-			&emsp;&emsp;&emsp;"course" : "IMT3672",<br>
+			&emsp;&emsp;&emsp;"course_code" : "IMT3672",<br>
 			&emsp;&emsp;&emsp;"positive" : M,<br>
 			&emsp;&emsp;&emsp;"negative" : N <br>
 			&emsp;&emsp;}, {...}<br>

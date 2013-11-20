@@ -16,15 +16,32 @@ class Statistics {
 	 * some string-hacking must be done. NO REGRETS.
 	 *
 	 * @param course
-	 * The HiG code of the course.
+	 * CSV string of the HiG course codes to be included
+	 * in the result set.
 	 *
 	 * @return
-	 * Associative array on the form:
-	 * {"positive":N,"negative":M}
+	 * See ../index.html
 	 */
-	public static function getTotalVotesForCourse($course) {
-		$where = "WHERE course='{$course}'";
-		return self::getTotalVotes($course);
+	public static function getTotalVotesForCourse($courses) {
+		$courses = explode(",", $courses);
+		$query = self::getCourseVotesQuery($courses);
+
+		Database::open();
+		$stmt = Database::query($query);
+
+		$json = Array(	"item_count" => $stmt->rowCount(),
+						"items" => Array()  );
+
+		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			$item = Array();
+			$item["course_code"] 	= $row["courseCode"];
+			$item["positive"] 		= $row["positive"];
+			$item["negative"] 		= $row["total"] - $row["positive"];
+
+			$json["items"][] = $item;
+		}
+
+		return $json;
 	}
 
 	/**
@@ -157,6 +174,37 @@ class Statistics {
 				."	FROM ReviewItem "
 				." {$whereClause} "
 				.")T";
+		return $query;
+	}
+
+	/**
+	 * Returns a query that will return the number of votes per
+	 * course.
+	 *
+	 * @param courses
+	 * Array containing the HiG codes
+	 *
+	 * @return
+	 * Query that will return the course code and votes for each
+	 * course.
+	 */
+	private static function getCourseVotesQuery(array $courses) {
+		foreach ($courses as & $course) { $course = "'{$course}'"; }
+		$csv = implode(", ", $courses);
+
+		$count = NUM_ATTRIBUTES;
+		$query = "SELECT SUM(len) AS positive, "
+				." 		 COUNT(*) * {$count} as total, "
+				."		 courseCode "
+				."FROM ( "
+				."	SELECT "
+				."		LENGTH(ratings) - "
+				." 		LENGTH(REPLACE(ratings,'1','')) "
+				."		AS len, courseCode "
+				."	FROM ReviewItem "
+				."  WHERE courseCode IN ( {$csv} ) "
+				.")T "
+				."GROUP BY courseCode ";
 		return $query;
 	}
 
