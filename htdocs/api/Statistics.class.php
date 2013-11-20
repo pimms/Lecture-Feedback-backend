@@ -59,7 +59,39 @@ class Statistics {
 	 * See ../index.html.
 	 */
 	public static function getAllLectures($course, $first, $count) {
+		$query = self::getAllLecturesQuery($course, $first, $count);
+		Database::open();
+		$stmt = Database::query($query);
 
+		$json = Array(	"first" => $first, 
+						"count" => $count,
+						"item_count" => $stmt->rowCount,
+						"items" => Array() );
+		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			$item = Array();
+
+			// Calculate the time and format it on the form "HH:mm - HH:mm".
+			$start = new DateTime();
+			$start->setTimeStamp($row["startTime"]);
+			$end = new DateTime();
+			$end->setTimeStamp($row["endTime"]);
+			$time = $start->format("H:i") ." - ". $end->format("H:i");
+			$date = $start->format("Y-m-d");
+
+			$item["id"] 			= $row["id"];
+			$item["course_name"]	= $row["courseName"];
+			$item["course_code"] 	= $row["courseCode"];
+			$item["lecturer"] 		= $row["lecturer"];
+			$item["time"] 			= $time;
+			$item["date"] 			= $date;
+			$item["room"] 			= $row["room"];-
+			$item["positive"] 		= $row["positive"];
+			$item["negative"] 		= $row["total"] - $row["positive"];
+
+			$json["items"][] = $item;
+		}
+
+		return $json;
 	}
 
 
@@ -133,12 +165,12 @@ class Statistics {
 		$query = "SELECT "
 				."	SUM(len) AS positive,"
 				."	COUNT(*)*{$count} as total, "
-				."	hash, courseName, courseCode, "
+				."	id, hash, courseName, courseCode, "
 				."	startTime, endTime, lecturer, room "
 				."FROM ( "
 				."	SELECT LENGTH(ratings) - LENGTH(REPLACE(ratings,'1','')) AS len, "
-				."			hash, courseName, courseCode, startTime, endTime, lecturer, "
-				." 			room "
+				."			id, hash, courseName, courseCode, "
+				." 			startTime, endTime, lecturer, room "
 				."	FROM ReviewItem "
 				."	WHERE courseCode='{$course}' "
 				.")T"
