@@ -20,6 +20,9 @@ if ($action == "course_votes") {
 } else if ($action == "lecture_votes") {
 	$hash = getFromAssoc($_GET, "hash", false) or dieBad();
 	$json = array_merge($json, Statistics::getTotalVotesForLecture($hash));
+} else if ($action == "lecture_votes_all") {
+	$course = getFromAssoc($_GET, "course", false) or dieBad();
+	$json = array_merge($json, Statistics::getAllLectures($course));
 } else {
 	dieBad();
 }

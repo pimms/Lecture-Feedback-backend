@@ -78,6 +78,8 @@ if (isset($_GET["filter"])) {
     if ($reviews !== false) {
     	// Prepare the JSON array
     	$json["status"] = "ok";
+        $json["first"] = $first;
+        $json["count"] = $count;
     	$json["item_count"] = count($reviews);
     	$json["items"] = array();
 

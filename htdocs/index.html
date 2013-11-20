@@ -49,6 +49,8 @@
 			<h3>Return</h3>
 			{  <br/>
 			&emsp;"status": "ok"/"bad",<br/>
+			&emsp;"first" : &lt;FIRST&gt;<br>
+			&emsp;"count" : &lt;COUNT&gt;<br>
 			&emsp;"item_count":N,<br/>
 			&emsp;"items": [<br/>
 			&emsp;&emsp;{<br/>
@@ -201,6 +203,39 @@
 			&emsp;"negative": M<br>
 			}<br><br>
 
+			<h3>Total votes for all lectures in a course</h3>
+			<b>action: </b>lecture_votes_all<br>
+			Additional parameters:<br>
+			<li>course <i>REQUIRED</i></li>
+			<i><u>Type:</u></i> HiG code of the course.
+			<br><br>
+			<li>first <i>OPTIONAL</i></li>
+			<i><u>Type:</u> integer, first returned item in the return set.</i>
+			<br><br>
+			<li>count <i></i></li>
+			<i><u>Type:</u></i> integer, the maximum number of items to be <br>
+			returned in the result set.
+			<br><br>
+			<i><u>Return:</u></i><br>
+			{<br>
+			&emsp;"status": "ok"/"bad",<br>
+			&emsp;"first" : &lt;FIRST&gt;<br>
+			&emsp;"count" : &lt;COUNT&gt;<br>
+			&emsp;"item_count":N,<br>
+			&emsp;"items": [<br>
+			&emsp;&emsp;{  <br>
+			&emsp;&emsp;&emsp;"id"       	: 150913,<br/>
+			&emsp;&emsp;&emsp;"course_name" : "Algoritmiske Metoder",<br/>
+			&emsp;&emsp;&emsp;"course_code" : "IMT2021",<br/>
+			&emsp;&emsp;&emsp;"lecturer" 	: "Frode Haug",<br/>
+			&emsp;&emsp;&emsp;"time"     	: "10:00 - 12:00",<br/>
+			&emsp;&emsp;&emsp;"date" 	 	: "20131105",<br/>
+			&emsp;&emsp;&emsp;"room"     	: "K105",<br/>
+			&emsp;&emsp;&emsp;"positive" 	: N,<br>
+			&emsp;&emsp;&emsp;"negative"	: M<br>
+			&emsp;&emsp;}, {...} <br>
+			&emsp;]<br> 
+			}<br><br>
 		</p>
 		
 	</body>
