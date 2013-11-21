@@ -27,11 +27,15 @@
 			Service base URL: &nbsp;&nbsp;&nbsp;<b>getFeed.php</b>
 
 			<h3>Parameters</h3>
-			<li>filter <i>REQUIRED</i></li>
+			<li>filter <i>EITHER hash OR filter IS REQUIRED</i></li>
 			<i><u>Type:</u></i> Comma separated list of the items to include in the response.<br/>
 			The items must be HiG course codes.<br/> <br/>
 			<i><u>Example:</u></i>
 			<i>"IMT3672,IMT2021"</i> will return a response with the<br/>the courses Mobile Development Project and Algorithmic Methods.<br/><br/>
+
+			<li>hash <i>EITHER hash OR filter IS REQUIRED</i></li>
+			<i><u>Type:</u></i> The hash of the lecture as defined in LectureItem.java and<br>
+			in the description of "postReview". Only feeds with this hash will be returned.<br><br>
 
 			<li>first <i>optional</i></li>
 			<i><u>Type:</u></i> Integer<br/>
@@ -40,10 +44,6 @@
 			<li>num <i>optional</i></li>
 			<i><u>Type:</u></i> Integer<br/>
 			The number of items to be returned in the result-set. Defaults to 20.
-
-			<li>hash <i>optional</i></li>
-			<i><u>Type:</u></i> The hash of the lecture as defined in LectureItem.java and<br>
-			in the description of "postReview". Only feeds with this hash will be returned.
 
 			<br/><br/>
 			<h3>Return</h3>

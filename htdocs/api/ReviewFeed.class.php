@@ -11,10 +11,14 @@ require_once("Database.class.php");
  */
 class ReviewFeed {
 	/**
-	 * Get an array of feed items.
+	 * Get an array of feed items. Note that either FILTER or HASH
+	 * must be defined.
 	 *
 	 * @param filter
 	 * Array of string containing HiG course codes
+	 * 
+	 * @param hash
+	 * The hash of a single lecture.
 	 *
 	 * @param first
 	 * The first item in the total list to be returned 
@@ -26,13 +30,18 @@ class ReviewFeed {
 	 * Array of Review-objects, or false if an error was
 	 * occured.
 	 */
-	public function getFeed($filter, $first, $count, $hash) {
+	public function getFeed($filter, $hash, $first, $count) {
+		if (isset($filter) == isset($hash)) {
+			die(json_encode(Array(	"status"=>"bad", 
+									"reason"=>"Both filter and hash is defined")));
+		}
+
 		if (!Database::open()) {
 			return false;
 		}
 
 		$result = array();	
-		$query = $this->getQuery($filter, $first, $count, $hash);
+		$query = $this->getQuery($filter, $hash, $first, $count);
 		$stmt = Database::query($query);
 
 		if ($stmt == false) {
@@ -67,7 +76,7 @@ class ReviewFeed {
 	}
 
 
-	private function getQuery($filter, $first, $count, $hash) {
+	private function getQuery($filter, $hash, $first, $count) {
 		$query = "	SELECT * FROM ReviewItem ";
 
 		$query .= $this->getQueryWhere($filter, $hash);
@@ -79,17 +88,21 @@ class ReviewFeed {
 	}
 
 	private function getQueryWhere($filter, $hash) {
-		$where = "WHERE courseCode IN (";
-		$where .= "\"{$filter[0]}\"";
+		$where = "";
 
-		for ($i = 1; $i < count($filter); $i++) {
-			$where .= ", \"{$filter[$i]}\" ";
+		if ($filter != null) {
+			$where = " WHERE courseCode IN (";
+			$where .= "\"{$filter[0]}\"";
+
+			for ($i = 1; $i < count($filter); $i++) {
+				$where .= ", \"{$filter[$i]}\" ";
+			}
+
+			$where .= " ) ";
 		}
 
-		$where .= " ) ";
-
 		if ($hash != null) {
-			$where .= " AND hash='{$hash}' ";
+			$where = " WHERE hash='{$hash}' ";
 		}
 
 		return $where;
