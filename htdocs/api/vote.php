@@ -20,7 +20,7 @@ $voteType = getFromAssoc($_GET, "type", null)
 			or dieBad("type is not defined");
 
 /* Ensure voteType has a valid value */
-if ($voteType != "clone" && $voteType != "down") {
+if ($voteType != "up" && $voteType != "down") {
 	dieBad("Invalid type value");
 }
 
@@ -31,10 +31,10 @@ $json = Array("status" => "bad");
 $vote = new Vote();
 $success = false;
 
-if ($voteType == "clone") {
-	$success = $vote->cloneReview($reviewId);
+if ($voteType == "up") {
+	$success = $vote->voteUp($reviewId);
 } else if ($voteType = "down") {
-	$success = $vote->flagProfanity($reviewId);
+	$success = $vote->voteDown($reviewId);
 }
 
 if ($success) {

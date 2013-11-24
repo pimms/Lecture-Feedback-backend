@@ -17,23 +17,23 @@ class Vote {
 	 * @return
 	 * true if success, otherwise false.
 	 */
-	public function cloneReview($reviewId) {
-		$query = $this->getCloneQuery($reviewId);
+	public function voteUp($reviewId) {
+		$query = $this->getUpVoteQuery($reviewId);
 		return $this->performUpdate($query);
 	}
 
 	/**
-	 * Flag the review with the specified ID as
-	 * profane or inappropriate.
+	 * Add a negative vote to the review with the
+	 * specified ID.
 	 *
 	 * @param reviewId
-	 * The unique ID of the review to be flagged.
+	 * The unique ID of the review to be voted down.
 	 *
 	 * @return
 	 * true if success, otherwise false.
 	 */
-	public function flagProfanity($reviewId) {
-		$query = $this->getProfanityQuery($reviewId);
+	public function voteDown($reviewId) {
+		$query = $this->getDownVoteQuery($reviewId);
 		return $this->performUpdate($query);
 	}
 
@@ -49,14 +49,14 @@ class Vote {
 	}
 
 
-	private function getCloneQuery($reviewId) {
+	private function getUpVoteQuery($reviewId) {
 		$query = "UPDATE ReviewItem "
 				."SET num_clones = num_clones + 1 "
 				."WHERE id = {$reviewId}";
 		return $query;
 	}
 
-	private function getProfanityQuery($reviewId) {
+	private function getDownVoteQuery($reviewId) {
 		$query = "UPDATE ReviewItem "
 				."SET negative_flags = negative_flags + 1 "
 				."WHERE id = {$reviewId}";
