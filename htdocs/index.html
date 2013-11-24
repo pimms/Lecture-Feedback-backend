@@ -13,7 +13,7 @@
 		<br/><br/>
 
 		<!-- Template parameter
-			<li> <i></i></li>
+			<b> <i></i></b><br>
 			<i><u>Type:</u></i>
 			<br><br>
 			<i><u>Example:</u></i>
@@ -27,21 +27,21 @@
 			Service base URL: &nbsp;&nbsp;&nbsp;<b>getFeed.php</b>
 
 			<h3>Parameters</h3>
-			<li>filter <i>EITHER hash OR filter IS REQUIRED</i></li>
+			<b>filter <i>EITHER hash OR filter IS REQUIRED</i></b><br>
 			<i><u>Type:</u></i> Comma separated list of the items to include in the response.<br/>
-			The items must be HiG course codes.<br/> <br/>
+			The items must be HiG course codes.<br/>
 			<i><u>Example:</u></i>
 			<i>"IMT3672,IMT2021"</i> will return a response with the<br/>the courses Mobile Development Project and Algorithmic Methods.<br/><br/>
 
-			<li>hash <i>EITHER hash OR filter IS REQUIRED</i></li>
+			<b>hash <i>EITHER hash OR filter IS REQUIRED</i></b><br>
 			<i><u>Type:</u></i> The hash of the lecture as defined in LectureItem.java and<br>
 			in the description of "postReview". Only feeds with this hash will be returned.<br><br>
 
-			<li>first <i>optional</i></li>
+			<b>first <i>optional</i></b><br>
 			<i><u>Type:</u></i> Integer<br/>
 			The index of the first item to be returned. Defaults to 0.<br/><br/>
 
-			<li>num <i>optional</i></li>
+			<b>num <i>optional</i></b><br>
 			<i><u>Type:</u></i> Integer<br/>
 			The number of items to be returned in the result-set. Defaults to 20.
 
@@ -78,71 +78,71 @@
 
 			<h3>Parameters</h3>
 			
-			<li>client_hash <i>REQUIRED</i></li>
+			<b>client_hash <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i> SHA-1 hash of the ANDROID_ID and our
-			super secret salt, "SpiceGurls". <br/><br/>
+			super secret salt, "SpiceGurls". <br/>
 			<i><u>Example:</u></i>
 			student_hash = SHA1(ANDROID_ID + "SpiceGurls");<br><br>
 
-			<li>course_name <i>REQUIRED</i></li>
-			<i><u>Type:</u></i> String holding the name of the course.<br><br>
+			<b>course_name <i>REQUIRED</i></b><br>
+			<i><u>Type:</u></i> String holding the name of the course.<br>
 			<i><u>Example:</u></i>
 			course_name = "Algoritmiske Metoder"
 			<br><br>
 
-			<li>course_code <i>REQUIRED</i></li>
+			<b>course_code <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i> String holding HiG's code for this course.<br><br>
 			<i><u>Example:</u></i>
 			course_code = "IMT3672"
 			<br><br>
 
-			<li>lecturer <i>REQUIRED</i></li>
+			<b>lecturer <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i>
 			String containing the name of the lecturer exactly
 			as it appears on TimeEdit.
-			<br><br>
+			<br>
 			<i><u>Example:</u></i>
 			lecturer = "Haug";
 			<br><br>
 
-			<li>room <i>REQUIRED</i></li>
+			<b>room <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i> 
-			String containing the name of the room.<br><br>
+			String containing the name of the room.<br>
 			<i><u>Example:</u></i> 
 			room = "K105";<br><br>
 
-			<li>start_time <i>REQUIRED</i></li>
+			<b>start_time <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i> UNIX timestamp of the starting time
-			of the lecture.<br><br>
+			of the lecture.<br>
 			<i><u>Example:</u></i>
 			String time = new Date("2013-12-31 10:00").unixTimestamp();
 			<br><br>
 
-			<li>end_time <i>REQUIRED</i></li>
+			<b>end_time <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i> UNIX timestamp of the ending time
-			of the lecture.<br><br>
+			of the lecture.<br>
 			<i><u>Example:</u></i>
 			String time = new Date("2013-12-31 12:00").unixTimestamp();
 			<br><br>
 
-			<li>attribute_version_set <i>REQUIRED</i></li>
+			<b>attribute_version_set <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i> Int holding a value defining
 			which version of the attribute set is used.
-			<br><br>
+			<br>
 			<i><u>Example:</u></i> Must be 1.
 			<br><br>
 
-			<li>attributes <i>REQUIRED</i></li>
+			<b>attributes <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i> 
 			Dot-separated boolean values.
-			<br><br>
+			<br>
 			<i><u>Example:</u></i>
 			attributes = "0.1.1.1.0";<br><br>
 
-			<li>hash <i>REQUIRED</i></li>
+			<b>hash <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i> String containing the SHA1 of
 			selected unique lecture properties.
-			<br><br>
+			<br>
 			<i><u>Example:</u></i><br>
 			<i>
 				hash = SHA1(<br>   
@@ -156,9 +156,9 @@
 			</i>
 			<br><br>
 
-			<li>comment <i>OPTIONAL</i><li>
+			<b>comment <i>OPTIONAL</i></b>
 			<i><u>Type:</u></i> String up to 333 characters in length.
-			<br><br>
+			<br>
 			<i><u>Example:</u></i>
 			comment = "Great lecture prof";
 			<br><br>
@@ -178,7 +178,7 @@
 			<h3>Total votes for courses</h3>
 			<b>action: </b>course_votes<br><br>
 			Other parameters:
-			<li>courses <i>REQUIRED</i></li>
+			<b>courses <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i> CSV String, of HiG codes of  the courses.<br>
 			<i><u>Example:</u></i> "IMT3672,IMT2021,IMT3601"<br>
 			<i><u>Return:</u></i><br>
@@ -197,9 +197,9 @@
 			<h3>Total votes for lecture</h3>
 			<b>action: </b>lecture_votes<br>
 			Additional parameters:<br>
-			<li>hash <i>REQUIRED</i></li>
+			<b>hash <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i> The lecture string as defined everywhere else.
-			<br><br>
+			<br>
 			<i><u>Example:</u></i> aeruheriaerblaieraeiurlhaerlkhjaer hash shit
 			<br>
 			<i><u>Return:</u></i><br>
@@ -212,13 +212,13 @@
 			<h3>Total votes for all lectures in a course</h3>
 			<b>action: </b>lecture_votes_all<br>
 			Additional parameters:<br>
-			<li>course <i>REQUIRED</i></li>
+			<b>course <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i> HiG code of the course.
-			<br><br>
-			<li>first <i>OPTIONAL</i></li>
+			<br>
+			<b>first <i>OPTIONAL</i></b><br>
 			<i><u>Type:</u> integer, first returned item in the return set.</i>
 			<br><br>
-			<li>count <i></i></li>
+			<b>count <i></i></b><br>
 			<i><u>Type:</u></i> integer, the maximum number of items to be <br>
 			returned in the result set.
 			<br><br>
@@ -243,5 +243,26 @@
 			}<br><br>
 		</p>
 		
+		<h2>Vote / clone</h2>
+		<p>
+			Service base URL: vote.php
+
+			<h3>Parameters</h3><br>
+			<b>review_id <i>REQUIRED</i></b><br>
+			<i><u>Type:</u></i> The unique ID of the review.
+			<br>
+			<i><u>Example:</u></i> 42
+			<br><br>
+
+			<b>type <i>REQUIRED</i></b><br>
+			<i><u>Type:</u></i> String defining what the 
+			vote actually is.
+			<br>
+			<i><u>Example:</u></i>
+			&emsp;<i>clone</i> to clone the review<br>
+			&emsp;<i>profane</i> to flag the review as profanity
+			<br><br>
+		</p>
+
 	</body>
 </html>
