@@ -6,7 +6,7 @@ function dieBad($reason) {
 	echo json_encode( 
 		Array(	"status"=>"bad",
 				"reason"=>$reason
-		); 
+		) 
 	);
 	die();
 }
