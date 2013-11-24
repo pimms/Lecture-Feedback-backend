@@ -1,6 +1,7 @@
 <?php
 
 require_once("Utils.php");
+require_once("Vote.class.php");
 
 function dieBad($reason) {
 	echo json_encode( 
@@ -25,11 +26,20 @@ if ($voteType != "clone" && $voteType != "down") {
 
 
 
-$json = Array("status" => "ok");
+$json = Array("status" => "bad");
 
+$vote = new Vote();
+$success = false;
 
-/* do stuff */
+if ($voteType == "clone") {
+	$success = $vote->cloneReview($reviewId);
+} else if ($voteType = "down") {
+	$success = $vote->flagProfanity($reviewId);
+}
 
+if ($success) {
+	$json["status"] = "ok";
+}
 
 echo json_encode($json);
 ?>
