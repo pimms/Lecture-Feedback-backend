@@ -46,6 +46,20 @@ class Database {
 	}
 
 	/**
+	 * Execute an INSERT or UPDATE query
+	 * on the database.
+	 *
+	 * @param query
+	 * The MySQL query to be performed
+	 *
+	 * @return
+	 * The number of affected rows
+  	 */
+	public static function exec($query) {
+		return self::$dbHandle->exec($query);
+	}
+
+	/**
 	 * Close the static PDO object
 	 */
 	public static function close() {
