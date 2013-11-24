@@ -19,7 +19,7 @@ class Vote {
 	 */
 	public function cloneReview($reviewId) {
 		$query = $this->getCloneQuery($reviewId);
-		return $this->performUpdate($query)
+		return $this->performUpdate($query);
 	}
 
 	/**
@@ -43,8 +43,7 @@ class Vote {
 			return false;
 		}
 
-		$query = $this->getCloneQuery($reviewId);
-		$rows = Database::exec($query);
+		$rows = Database::exec($updateQuery);
 
 		return ($rows != 0);
 	}
