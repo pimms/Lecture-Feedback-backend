@@ -94,6 +94,10 @@ if (isset($_GET["filter"]) || isset($_GET["hash"])) {
 } 
 
 $jsonString = json_encode($json);
-//$jsonString = prettyPrint($jsonString);
+
+if (isset($_GET["pretty"])) {
+    $jsonString = prettyPrint($jsonString);
+}
+
 echo $jsonString;
 ?>
