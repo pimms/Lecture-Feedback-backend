@@ -227,6 +227,45 @@ class Statistics {
 
 		return $query;
 	}
+
+
+	/**
+	 * Returns a query that will give the total number and number of positive
+	 * votes for all lecturers. If courses contains any courses, only lecturers
+	 * that have tought those courses will be returned.
+	 *
+	 * @param courses
+	 * Array of HiG course codes, or NULL.
+	 *
+	 * @return
+	 * SQL Query string
+	 */
+	private static function getLecturerVoteCountQuery(array $courses) {
+		$lectureWhere = "";
+		if ($courses != NULL) {
+			foreach ($courses as & $course) { $course = "'{$course}'"};
+			$csv = implode(", " $courses);
+			$lectureWhere = "WHERE courseCode IN ( {$csv} ) "
+		}
+
+		$query = "	SELECT SUM(len) AS positive, "
+       			."	COUNT(*) * 5 as total, lecturer "
+				."	FROM ( "
+				." 		SELECT "
+				." 		LENGTH(ratings) - "
+    			."		LENGTH(REPLACE(ratings,'1','')) "
+				."		AS len, lecturer "
+				."		FROM ReviewItem "
+    			." 		WHERE lecturer IN ( "
+    			."			SELECT DISTINCT lecturer "
+    			. 			$lectureWhere 
+    			."		) "
+				."	)t " 
+				." 	GROUP BY lecturer "
+				." 	HAVING total >= 5 ";
+				
+		return $query;
+	}
 }
 
 ?>
