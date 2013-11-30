@@ -58,6 +58,37 @@ class Statistics {
 		return self::getTotalVotes($where);
 	}
 
+	/**
+	 * Get the total number of votes on one or more lecturers
+	 *
+	 * @param courses
+	 * The courses to filter the lecturers by, or NULL.
+	 *
+	 * @return
+	 * {"num_items":N, "items":{ "lecturer":"..", "positive":P, "negative":N } }
+	 */
+	public static function getTotalVotesForLecturer(array $courses) {
+		$query = self::getLecturerVoteCountQuery($courses);
+
+		Database::open();
+
+		$stmt = Database::query($query);
+
+		$allItems = array(	"num_items" => $stmt->rowCount()
+							"items" => Array() );
+
+		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			$item = array();
+
+			$item["lecturer"] = $row["lecturer"];
+			$item["positive"] = $row["positive"];
+			$item["negative"] = $row["total"] - $item["positive"];
+
+			$allItems["items"][] = $item;
+		}
+
+		return $allItems;
+	}
 
 	/** 
 	 * Returns "count" lectures in a course, starting at "first".
@@ -263,7 +294,7 @@ class Statistics {
 				."	)t " 
 				." 	GROUP BY lecturer "
 				." 	HAVING total >= 5 ";
-				
+
 		return $query;
 	}
 }
