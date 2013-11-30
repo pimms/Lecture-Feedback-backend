@@ -67,14 +67,14 @@ class Statistics {
 	 * @return
 	 * {"num_items":N, "items":{ "lecturer":"..", "positive":P, "negative":N } }
 	 */
-	public static function getTotalVotesForLecturer(array $courses) {
+	public static function getTotalVotesForLecturer($courses) {
 		$query = self::getLecturerVoteCountQuery($courses);
 
 		Database::open();
 
 		$stmt = Database::query($query);
 
-		$allItems = array(	"item_count" => $stmt->rowCount()
+		$allItems = array(	"item_count" => $stmt->rowCount(),
 							"items" => Array() );
 
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -271,16 +271,18 @@ class Statistics {
 	 * @return
 	 * SQL Query string
 	 */
-	private static function getLecturerVoteCountQuery(array $courses) {
+	private static function getLecturerVoteCountQuery($courses) {
+		$count = NUM_ATTRIBUTES;
 		$lectureWhere = "";
+
 		if ($courses != NULL) {
-			foreach ($courses as & $course) { $course = "'{$course}'"};
-			$csv = implode(", " $courses);
-			$lectureWhere = "WHERE courseCode IN ( {$csv} ) "
+			foreach ($courses as & $course) $course = "'{$course}'";
+			$csv = implode(", ", $courses);
+			$lectureWhere = "WHERE courseCode IN ( {$csv} ) ";
 		}
 
 		$query = "	SELECT SUM(len) AS positive, "
-       			."	COUNT(*) * 5 as total, lecturer "
+       			."	COUNT(*) * {$count} as total, lecturer "
 				."	FROM ( "
 				." 		SELECT "
 				." 		LENGTH(ratings) - "
@@ -293,7 +295,8 @@ class Statistics {
     			."		) "
 				."	)t " 
 				." 	GROUP BY lecturer "
-				." 	HAVING total >= 5 ";
+				." 	HAVING total >= {$count} "
+				."	ORDER BY positive DESC ";
 
 		return $query;
 	}
