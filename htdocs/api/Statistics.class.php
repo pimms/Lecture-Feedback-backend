@@ -234,7 +234,8 @@ class Statistics {
 				."	FROM ReviewItem "
 				."  WHERE courseCode IN ( {$csv} ) "
 				.")T "
-				."GROUP BY courseCode ";
+				."GROUP BY courseCode "
+				."ORDER BY positive DESC ";
 		return $query;
 	}
 
