@@ -74,7 +74,7 @@ class Statistics {
 
 		$stmt = Database::query($query);
 
-		$allItems = array(	"num_items" => $stmt->rowCount()
+		$allItems = array(	"item_count" => $stmt->rowCount()
 							"items" => Array() );
 
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

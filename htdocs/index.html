@@ -177,7 +177,7 @@
 
 			<h3>Total votes for courses</h3>
 			<b>action: </b>course_votes<br><br>
-			Other parameters:
+			Other parameters:<br>
 			<b>courses <i>REQUIRED</i></b><br>
 			<i><u>Type:</u></i> CSV String, of HiG codes of  the courses.<br>
 			<i><u>Example:</u></i> "IMT3672,IMT2021,IMT3601"<br>
@@ -240,6 +240,25 @@
 			&emsp;&emsp;&emsp;"negative"	: M<br>
 			&emsp;&emsp;}, {...} <br>
 			&emsp;]<br> 
+			}<br><br>
+
+			<h3>Total votes for a single lecturer</h3>
+			<b>action: </b>teacher_votes<br>
+			Additional parameters:<br>
+			<b>courses <i>OPTIONAL</i></b>
+			<i><u>Type:</u></i> CSV of HiG course codes<br>
+			<i><u>Example:</u></i> "IMT3672","IMT3601"<br><br>
+			<i><u>Return:</u></i><br>
+			{<br>
+			&emsp;"status": "ok"/"bad",<br>
+			&emsp;"item_count":N,<br>
+			&emsp;"items": [<br>
+			&emsp;&emsp;{<br>
+			&emsp;&emsp;&emsp;"lecturer":"Heisann McSveisann",<br>
+			&emsp;&emsp;&emsp;"positive":P,<br>
+			&emsp;&emsp;&emsp;"negative":N<br>
+			&emsp;&emsp;}, {...}<br>
+			&emsp;]<br>
 			}<br><br>
 		</p>
 		
