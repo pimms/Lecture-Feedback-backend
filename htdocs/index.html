@@ -242,19 +242,23 @@
 			&emsp;]<br> 
 			}<br><br>
 
-			<h3>Total votes for a single lecturer</h3>
-			<b>action: </b>teacher_votes<br>
+			<h3>Top courses</h3>
+			<b>action: </b>top_courses<br>
 			Additional parameters:<br>
-			<b>courses <i>OPTIONAL</i></b>
-			<i><u>Type:</u></i> CSV of HiG course codes<br>
-			<i><u>Example:</u></i> "IMT3672","IMT3601"<br><br>
+			<b>first <i>OPTIONAL</i></b>
+			<i><u>Type:</u></i> Number of items to ignore<br><br>
+			<b>count <i>OPTIONAL</i></b>
+			<i><u>Type:</u></i> Max number of items to return<br><br>
+			
+
 			<i><u>Return:</u></i><br>
 			{<br>
 			&emsp;"status": "ok"/"bad",<br>
 			&emsp;"item_count":N,<br>
 			&emsp;"items": [<br>
 			&emsp;&emsp;{<br>
-			&emsp;&emsp;&emsp;"lecturer":"Heisann McSveisann",<br>
+			&emsp;&emsp;&emsp;"course_code":"IMTeplefjes",<br>
+			&emsp;&emsp;&emsp;"course_name":"Eplefjes",<br>
 			&emsp;&emsp;&emsp;"positive":P,<br>
 			&emsp;&emsp;&emsp;"negative":N<br>
 			&emsp;&emsp;}, {...}<br>

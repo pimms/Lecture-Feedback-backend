@@ -61,26 +61,26 @@ class Statistics {
 	/**
 	 * Get the total number of votes on one or more lecturers
 	 *
-	 * @param courses
-	 * The courses to filter the lecturers by, or NULL.
-	 *
 	 * @return
 	 * {"num_items":N, "items":{ "lecturer":"..", "positive":P, "negative":N } }
 	 */
-	public static function getTotalVotesForLecturer($courses) {
-		$query = self::getLecturerVoteCountQuery($courses);
+	public static function getTopCourses($first, $count) {
+		$query = self::getTopCourseQuery($first, $count);
 
 		Database::open();
 
 		$stmt = Database::query($query);
 
 		$allItems = array(	"item_count" => $stmt->rowCount(),
-							"items" => Array() );
+							"items" => Array(),
+							"first" => $first,
+							"count" => $count);
 
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			$item = array();
 
-			$item["lecturer"] = $row["lecturer"];
+			$item["course_name"] = $row["courseName"];
+			$item["course_code"] = $row["courseCode"];
 			$item["positive"] = $row["positive"];
 			$item["negative"] = $row["total"] - $item["positive"];
 
@@ -272,32 +272,23 @@ class Statistics {
 	 * @return
 	 * SQL Query string
 	 */
-	private static function getLecturerVoteCountQuery($courses) {
+	private static function getTopCourseQuery($first, $last) {
 		$count = NUM_ATTRIBUTES;
-		$lectureWhere = "";
-
-		if ($courses != NULL) {
-			foreach ($courses as & $course) $course = "'{$course}'";
-			$csv = implode(", ", $courses);
-			$lectureWhere = "WHERE courseCode IN ( {$csv} ) ";
-		}
 
 		$query = "	SELECT SUM(len) AS positive, "
-       			."	COUNT(*) * {$count} as total, lecturer "
+       			."	COUNT(*) * {$count} as total, courseName, courseCode "
 				."	FROM ( "
 				." 		SELECT "
 				." 		LENGTH(ratings) - "
-    			."		LENGTH(REPLACE(ratings,'1','')) "
-				."		AS len, lecturer "
+    			."			LENGTH(REPLACE(ratings,'1','')) "
+				."			AS len, "
+				."			courseCode, courseName "
 				."		FROM ReviewItem "
-    			." 		WHERE lecturer IN ( "
-    			."			SELECT DISTINCT lecturer "
-    			. 			$lectureWhere 
-    			."		) "
 				."	)t " 
-				." 	GROUP BY lecturer "
+				." 	GROUP BY courseCode "
 				." 	HAVING total >= {$count} "
-				."	ORDER BY positive DESC ";
+				."	ORDER BY positive DESC "
+				."	LIMIT {$first}, {$count} ";
 
 		return $query;
 	}
