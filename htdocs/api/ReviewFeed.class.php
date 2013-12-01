@@ -68,7 +68,8 @@ class ReviewFeed {
 	        	$row["room"], 
 	        	$ratings,
 	        	$row["comment"], 
-	        	strtotime($row["reviewTime"]));
+	        	strtotime($row["reviewTime"]),
+	        	$row["num_clones"]);
 	        $result[] = $obj;
 	    }
 
