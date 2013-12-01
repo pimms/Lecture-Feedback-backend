@@ -195,7 +195,7 @@ class Statistics {
 		// attributes.
 		$count = NUM_ATTRIBUTES;
 		$query = "SELECT SUM(len) AS positive, "
-				." 		 COUNT(*) * {$count} as total "
+				." 		 COUNT(*) * ({$count} + SUM(num_clones)) as total "
 				."FROM ( "
 				."	SELECT "
 				."		LENGTH(ratings) - "
