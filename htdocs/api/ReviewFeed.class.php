@@ -80,9 +80,10 @@ class ReviewFeed {
 
 	private function getQuery($filter, $hash, $first, $count) {
 		$query = "	SELECT * FROM ReviewItem ";
+		
 		$query .= $this->getQueryWhere($filter, $hash);
+		$query .= $this->getQueryOrderBy($filter, $hash);
 
-		$query .= " ORDER BY reviewTime DESC ";
 		$query .= " LIMIT $first, $count";
 
 		return $query;
@@ -110,6 +111,20 @@ class ReviewFeed {
 		$where .= " AND negative_flags < {$maxNegative} ";
 
 		return $where;
+	}
+
+	private function getQueryOrderBy($filter, $hash) {
+		$query = "";
+
+		if ($filter != null) {
+			$query = " ORDER BY reviewTime DESC ";
+		} 
+
+		if ($hash != null) {
+			$query = " ORDER BY num_clones DESC, reviewTime DESC ";
+		}
+
+		return $query;
 	}
 }
 ?>
