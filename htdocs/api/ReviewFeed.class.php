@@ -79,13 +79,10 @@ class ReviewFeed {
 
 
 	private function getQuery($filter, $hash, $first, $count) {
-		$maxNegative = PROFANITY_LIMIT;
-
 		$query = "	SELECT * FROM ReviewItem ";
 		$query .= $this->getQueryWhere($filter, $hash);
 
 		$query .= " ORDER BY reviewTime DESC ";
-		$query .= " WHERE negative_flags < {$maxNegative} ";
 		$query .= " LIMIT $first, $count";
 
 		return $query;
@@ -108,6 +105,9 @@ class ReviewFeed {
 		if ($hash != null) {
 			$where = " WHERE hash='{$hash}' ";
 		}
+
+		$maxNegative = PROFANITY_LIMIT;
+		$where .= " AND negative_flags < {$maxNegative} ";
 
 		return $where;
 	}
