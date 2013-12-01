@@ -1,5 +1,6 @@
 <?php
 
+require_once("Const.php");
 require_once("Review.class.php");
 require_once("Database.class.php");
 
@@ -78,11 +79,13 @@ class ReviewFeed {
 
 
 	private function getQuery($filter, $hash, $first, $count) {
-		$query = "	SELECT * FROM ReviewItem ";
+		$maxNegative = PROFANITY_LIMIT;
 
+		$query = "	SELECT * FROM ReviewItem ";
 		$query .= $this->getQueryWhere($filter, $hash);
 
 		$query .= " ORDER BY reviewTime DESC ";
+		$query .= " WHERE negative_flags < {$maxNegative} ";
 		$query .= " LIMIT $first, $count";
 
 		return $query;
