@@ -81,6 +81,11 @@ class Review {
 	 */
 	private $hash;
 
+	/**
+	 * INT holding the number of clones this review has received
+	 */
+	private $cloneCount;
+
 
 	public function __construct() {
 		/* Do jack diddly squat yo */
@@ -121,6 +126,9 @@ class Review {
 	 * @param reviewTime
 	 * The unix timestamp of the review if this object was 
 	 * read from a database, undefined otherwise.
+	 *
+	 * @param cloneCount
+	 * The number of times this review has been cloned
 	 */
 	public function setAllValues($id, 
 								$courseName, 
@@ -131,7 +139,8 @@ class Review {
 								$room, 
 								array $ratings, 
 								$comment, 
-								$reviewTime) {
+								$reviewTime,
+								$cloneCount) {
 		$this->id = $id;
 		$this->courseName = $courseName;
 		$this->courseCode = $courseCode;
@@ -140,6 +149,7 @@ class Review {
 		$this->room = $room;
 		$this->ratings = $ratings;
 		$this->comment = $comment;
+		$this->cloneCount = $cloneCount;
 
 		// Set "time" and "date" 
 		$this->setTimeFieldsFromUnix($startTime, $endTime);
@@ -200,7 +210,7 @@ class Review {
 	 * Validate an associative array.
 	 *
 	 * @param assoc
-	 * The array to be validatet. Usually _GET or _POST.
+	 * The array to be validated. Usually _GET or _POST.
 	 *
 	 * @return
 	 * TRUE of the array can be used for creation, FALSE otherwise.
@@ -236,6 +246,7 @@ class Review {
 		$arr["ratings"]  	= $this->getRatings();
 		$arr["comment"]  	= $this->getComment();
 		$arr["review_time"] = $reviewTime->format("Y-m-d H:i");
+		$arr["clone_count"] = $this->getCloneCount();
 
 		return $arr;
 	}
@@ -326,6 +337,10 @@ class Review {
 
 	public function getComment() {
 		return $this->comment;
+	}
+
+	public function getCloneCount() {
+		return $this->cloneCount;
 	}
 
 
