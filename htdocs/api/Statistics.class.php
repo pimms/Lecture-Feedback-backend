@@ -224,7 +224,7 @@ class Statistics {
 
 		$count = NUM_ATTRIBUTES;
 		$query = "SELECT SUM(len) AS positive, "
-				." 		 COUNT(*) * ({$count} * SUM(num_clones)) as total, "
+				." 		 COUNT(*) * {$count} as total, "
 				."		 courseCode "
 				."FROM ( "
 				."	SELECT "
