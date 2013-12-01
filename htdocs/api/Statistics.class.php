@@ -224,13 +224,14 @@ class Statistics {
 
 		$count = NUM_ATTRIBUTES;
 		$query = "SELECT SUM(len) AS positive, "
-				." 		 COUNT(*) * {$count} as total, "
+				." 		 (COUNT(*)+SUM(num_clones)) * {$count} as total, "
 				."		 courseCode "
 				."FROM ( "
 				."	SELECT "
-				."		LENGTH(ratings) - "
-				." 		LENGTH(REPLACE(ratings,'1','')) "
-				."		AS len, courseCode "
+				."		( LENGTH(ratings) - LENGTH(REPLACE(ratings,'1','')) ) "
+				."			* (num_clones+1) AS len, "
+				."		num_clones, "
+				."		courseCode "
 				."	FROM ReviewItem "
 				."  WHERE courseCode IN ( {$csv} ) "
 				.")T "
