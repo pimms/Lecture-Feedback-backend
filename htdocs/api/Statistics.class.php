@@ -35,6 +35,7 @@ class Statistics {
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			$item = Array();
 			$item["course_code"] 	= $row["courseCode"];
+			$item["course_name"] 	= $row["courseName"];
 			$item["positive"] 		= $row["positive"];
 			$item["negative"] 		= $row["total"] - $row["positive"];
 
@@ -225,13 +226,13 @@ class Statistics {
 		$count = NUM_ATTRIBUTES;
 		$query = "SELECT SUM(len) AS positive, "
 				." 		 (COUNT(*)+SUM(num_clones)) * {$count} as total, "
-				."		 courseCode "
+				."		 courseCode, courseName "
 				."FROM ( "
 				."	SELECT "
 				."		( LENGTH(ratings) - LENGTH(REPLACE(ratings,'1','')) ) "
 				."			* (num_clones+1) AS len, "
 				."		num_clones, "
-				."		courseCode "
+				."		courseCode, courseName "
 				."	FROM ReviewItem "
 				."  WHERE courseCode IN ( {$csv} ) "
 				.")T "
