@@ -27,11 +27,16 @@ class ReviewFeed {
 	 * @param count
 	 * The maximum number of items to be retrieved.
 	 *
+	 * @param lastId
+	 * The returned set of reviews will all have a lower ID than
+	 * this parameter. If this is not null, it is used instead of
+	 * $first.
+	 *
 	 * @return
 	 * Array of Review-objects, or false if an error was
 	 * occured.
 	 */
-	public function getFeed($filter, $hash, $first, $count) {
+	public function getFeed($filter, $hash, $first, $count, $lastId) {
 		if (isset($filter) == isset($hash)) {
 			die(json_encode(Array(	"status"=>"bad", 
 									"reason"=>"Both filter and hash is defined")));
@@ -42,7 +47,7 @@ class ReviewFeed {
 		}
 
 		$result = array();	
-		$query = $this->getQuery($filter, $hash, $first, $count);
+		$query = $this->getQuery($filter, $hash, $first, $count, $lastId);
 		$stmt = Database::query($query);
 
 		if ($stmt == false) {
@@ -78,18 +83,22 @@ class ReviewFeed {
 	}
 
 
-	private function getQuery($filter, $hash, $first, $count) {
+	private function getQuery($filter, $hash, $first, $count, $lastId) {
 		$query = "	SELECT * FROM ReviewItem ";
 		
-		$query .= $this->getQueryWhere($filter, $hash);
+		$query .= $this->getQueryWhere($filter, $hash, $lastId);
 		$query .= $this->getQueryOrderBy($filter, $hash);
 
-		$query .= " LIMIT $first, $count";
+		if ($lastId == null) {
+			$query .= " LIMIT $first, $count ";
+		} else {
+			$query .= " LIMIT $count ";
+		}
 
 		return $query;
 	}
 
-	private function getQueryWhere($filter, $hash) {
+	private function getQueryWhere($filter, $hash, $lastId) {
 		$where = "";
 
 		if ($filter != null) {
@@ -109,6 +118,10 @@ class ReviewFeed {
 
 		$maxNegative = PROFANITY_LIMIT;
 		$where .= " AND negative_flags < {$maxNegative} ";
+
+		if ($lastId != null) {
+			$where .= " AND id < {$lastId} ";
+		}
 
 		return $where;
 	}
