@@ -10,7 +10,7 @@ $json = array("status" => "bad");
 if (isset($_GET["filter"]) || isset($_GET["hash"])) {
 	// Set FIRST and COUNT from default / GET
 	$first  = getFromAssoc($_GET, "first", 0);
-    $lastId = getFromAssoc($_GET, "lastid", 0);
+    $lastId = getFromAssoc($_GET, "lastid", null);
 	$count  = getFromAssoc($_GET, "count", 25);
     $hash   = getFromAssoc($_GET, "hash", null);
     $filter = getFromAssoc($_GET, "filter", null);
@@ -21,7 +21,7 @@ if (isset($_GET["filter"]) || isset($_GET["hash"])) {
 
 	// Retrieve the feed of items
 	$feed = new ReviewFeed();
-	$reviews = $feed->getFeed($filter, $hash, $first, $count);
+	$reviews = $feed->getFeed($filter, $hash, $first, $count, $lastId);
 
     if ($reviews !== false) {
     	// Prepare the JSON array
